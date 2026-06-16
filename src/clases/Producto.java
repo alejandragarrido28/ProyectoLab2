@@ -23,6 +23,16 @@ public abstract class Producto implements Almacenable {
     private int stockActual;
     private int stockMinimo;
 
+    public Producto(String codigo, String nombre, String proveedor, CategoriaProducto categoria, double precioUnitario, int stockActual, int stockMinimo) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.proveedor = proveedor;
+        this.categoria = categoria;
+        this.precioUnitario = precioUnitario;
+        this.stockActual = stockActual;
+        this.stockMinimo = stockMinimo;
+    }
+
     @Override
     public String toRegistro() {
         return String.format("%s|%s|%s|%s|%.2f|%d|%d",
@@ -36,8 +46,36 @@ public abstract class Producto implements Almacenable {
     }
 
     @Override
-    public boolean tieneStockCritico(){
+    public boolean tieneStockCritico() {
         return stockActual < stockMinimo;
-    };
-    
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getProveedor() {
+        return proveedor;
+    }
+
+    public CategoriaProducto getCategoria() {
+        return categoria;
+    }
+
+    public double getPrecioUnitario() {
+        return precioUnitario;
+    }
+
+    public int getStockActual() {
+        return stockActual;
+    }
+
+    public int getStockMinimo() {
+        return stockMinimo;
+    }
+
 }
