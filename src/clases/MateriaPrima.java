@@ -45,4 +45,12 @@ public class MateriaPrima extends Producto {
                 unidadMedida,
                 concentracion);
     }
+
+    public String getUnidadMedida() {
+        return unidadMedida;
+    }
+
+    public double getConcentracion() {
+        return concentracion;
+    }
 }

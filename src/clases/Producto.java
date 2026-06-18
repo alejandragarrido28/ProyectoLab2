@@ -6,12 +6,13 @@ package clases;
 
 import Enums.CategoriaProducto;
 import Interfaces.Almacenable;
+import java.io.Serializable;
 
 /**
  *
  * @author euced
  */
-public abstract class Producto implements Almacenable {
+public abstract class Producto implements Almacenable, Serializable {
 
     private static final long serialVersionUID = 1L;
 

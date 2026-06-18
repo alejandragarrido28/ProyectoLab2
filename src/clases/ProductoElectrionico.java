@@ -38,4 +38,22 @@ public class ProductoElectrionico extends Producto {
         return "";
     }
 
+    @Override
+    public String toRegistro() {
+        return super.toRegistro() + String.format("|%s|%d|%d",
+                numeroDeSerie, garantiaMeses, voltaje);
+    }
+
+    public String getNumeroDeSerie() {
+        return numeroDeSerie;
+    }
+
+    public int getGarantiaMeses() {
+        return garantiaMeses;
+    }
+
+    public int getVoltaje() {
+        return voltaje;
+    }
+
 }

@@ -1,0 +1,4 @@
+codigo,nombre,proveedor,categoria,precioUnitario,stockActual,stockMinimo,valorStock,alerta,atributosExtra
+P001,Leche,Lacteos SA,PERECEDERO,25.00,5,10,101.81,ALERTA: Vence en 3 dias - Leche [P001],vencimiento=2026-06-20; tempMax=4.0; diasVigencia=3
+E001,Monitor,TechCorp,ELECTRONICO,3500.00,2,5,7840.00,ALERTA: Stock bajo (2/5 min) - Monitor [E001],serie=SN-123; garantia=12; voltaje=220
+M001,Harina,Molinos,MATERIA_PRIMA,15.00,0,20,0.00,CRITICO: Sin existencias - Harina [M001] Contactar: Molinos,unidad=kg; concentracion=0.95
