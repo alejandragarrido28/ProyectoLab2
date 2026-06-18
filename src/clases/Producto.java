@@ -79,4 +79,12 @@ public abstract class Producto implements Almacenable, Serializable {
         return stockMinimo;
     }
 
+    public void actualizarStock(int cambio) {
+        int nuevoStock = stockActual + cambio;
+        if (nuevoStock < 0) {
+            throw new IllegalArgumentException("El stock no puede quedar negativo para el producto " + codigo);
+        }
+        stockActual = nuevoStock;
+    }
+
 }
