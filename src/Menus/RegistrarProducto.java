@@ -4,6 +4,8 @@
  */
 package Menus;
 
+import java.util.Date;
+
 /**
  *
  * @author valer
@@ -43,6 +45,13 @@ public class RegistrarProducto extends javax.swing.JFrame {
         txtCodigoProducto = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         txtProveedor = new javax.swing.JTextField();
+        jPanelPerecedero = new javax.swing.JPanel();
+        lblDiasVigencia = new javax.swing.JLabel();
+        lblTemperatura = new javax.swing.JLabel();
+        lblFechaVencimiento = new javax.swing.JLabel();
+        jDateChooser = new com.toedter.calendar.JDateChooser();
+        txtDiasVigencia = new javax.swing.JTextField();
+        txtTemperatura = new javax.swing.JTextField();
         jPanelMateriaPrima = new javax.swing.JPanel();
         lblTituloUnidadMedida = new javax.swing.JLabel();
         lblTituloConcentracion = new javax.swing.JLabel();
@@ -55,13 +64,6 @@ public class RegistrarProducto extends javax.swing.JFrame {
         txtNumeroSerie = new javax.swing.JTextField();
         txtGarantia = new javax.swing.JTextField();
         txtVoltaje = new javax.swing.JTextField();
-        jPanelPerecedero = new javax.swing.JPanel();
-        lblDiasVigencia = new javax.swing.JLabel();
-        lblTemperatura = new javax.swing.JLabel();
-        lblFechaVencimiento = new javax.swing.JLabel();
-        txtFechaVencimiento = new javax.swing.JTextField();
-        txtDiasVigencia = new javax.swing.JTextField();
-        txtTemperatura = new javax.swing.JTextField();
         btnLimpiar = new javax.swing.JToggleButton();
         txtPrecio = new javax.swing.JTextField();
         txtStockInicial = new javax.swing.JTextField();
@@ -99,37 +101,37 @@ public class RegistrarProducto extends javax.swing.JFrame {
         lblTituloCodigo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTituloCodigo.setForeground(new java.awt.Color(0, 0, 51));
         lblTituloCodigo.setText("Código Producto");
-        jPanel1.add(lblTituloCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
+        jPanel1.add(lblTituloCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, -1, -1));
 
         lblTituloNombre.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTituloNombre.setForeground(new java.awt.Color(0, 0, 51));
         lblTituloNombre.setText("Nombre");
-        jPanel1.add(lblTituloNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 270, -1, -1));
+        jPanel1.add(lblTituloNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, -1, -1));
 
         lblTituloProveedor.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTituloProveedor.setForeground(new java.awt.Color(0, 0, 51));
         lblTituloProveedor.setText("Proveedor");
-        jPanel1.add(lblTituloProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 340, -1, -1));
+        jPanel1.add(lblTituloProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, -1, -1));
 
         lblTituloCategoría.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTituloCategoría.setForeground(new java.awt.Color(0, 0, 51));
         lblTituloCategoría.setText("Categoría");
-        jPanel1.add(lblTituloCategoría, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 410, -1, -1));
+        jPanel1.add(lblTituloCategoría, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 410, -1, -1));
 
         lblPrecioUnitario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblPrecioUnitario.setForeground(new java.awt.Color(0, 0, 51));
         lblPrecioUnitario.setText("Precio Unitario");
-        jPanel1.add(lblPrecioUnitario, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, -1, -1));
+        jPanel1.add(lblPrecioUnitario, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, -1, -1));
 
         lblTituloStockInicial.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTituloStockInicial.setForeground(new java.awt.Color(0, 0, 51));
         lblTituloStockInicial.setText("Stock Inicial");
-        jPanel1.add(lblTituloStockInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, -1, -1));
+        jPanel1.add(lblTituloStockInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 270, -1, -1));
 
         lblTituloStockMinimo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTituloStockMinimo.setForeground(new java.awt.Color(0, 0, 51));
         lblTituloStockMinimo.setText("Stock Mínimo");
-        jPanel1.add(lblTituloStockMinimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 340, -1, -1));
+        jPanel1.add(lblTituloStockMinimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 340, -1, -1));
 
         jComboBox1.setBackground(new java.awt.Color(237, 237, 255));
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -141,7 +143,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 440, 280, 30));
+        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 440, 280, 30));
 
         txtCodigoProducto.setBackground(new java.awt.Color(237, 237, 255));
         txtCodigoProducto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -151,7 +153,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
                 txtCodigoProductoActionPerformed(evt);
             }
         });
-        jPanel1.add(txtCodigoProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 230, 280, 30));
+        jPanel1.add(txtCodigoProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, 280, 30));
 
         txtNombre.setBackground(new java.awt.Color(237, 237, 255));
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -161,7 +163,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
                 txtNombreActionPerformed(evt);
             }
         });
-        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 300, 280, 30));
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 280, 30));
 
         txtProveedor.setBackground(new java.awt.Color(237, 237, 255));
         txtProveedor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -171,7 +173,53 @@ public class RegistrarProducto extends javax.swing.JFrame {
                 txtProveedorActionPerformed(evt);
             }
         });
-        jPanel1.add(txtProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 370, 280, 30));
+        jPanel1.add(txtProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, 280, 30));
+
+        jPanelPerecedero.setBackground(new java.awt.Color(0, 0, 0));
+        jPanelPerecedero.setForeground(new java.awt.Color(245, 247, 255));
+        jPanelPerecedero.setOpaque(false);
+        jPanelPerecedero.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblDiasVigencia.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblDiasVigencia.setForeground(new java.awt.Color(0, 0, 51));
+        lblDiasVigencia.setText("Días de Vigencia");
+        jPanelPerecedero.add(lblDiasVigencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+
+        lblTemperatura.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTemperatura.setForeground(new java.awt.Color(0, 0, 51));
+        lblTemperatura.setText("Temperatura (°C)");
+        jPanelPerecedero.add(lblTemperatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+
+        lblFechaVencimiento.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblFechaVencimiento.setForeground(new java.awt.Color(0, 0, 51));
+        lblFechaVencimiento.setText("Fecha de Vencimiento");
+        jPanelPerecedero.add(lblFechaVencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+
+        jDateChooser.setBackground(new java.awt.Color(237, 237, 255));
+        jDateChooser.setForeground(new java.awt.Color(0, 0, 51));
+        jPanelPerecedero.add(jDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 280, -1));
+
+        txtDiasVigencia.setBackground(new java.awt.Color(237, 237, 255));
+        txtDiasVigencia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtDiasVigencia.setForeground(new java.awt.Color(0, 0, 51));
+        txtDiasVigencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDiasVigenciaActionPerformed(evt);
+            }
+        });
+        jPanelPerecedero.add(txtDiasVigencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 280, 30));
+
+        txtTemperatura.setBackground(new java.awt.Color(237, 237, 255));
+        txtTemperatura.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTemperatura.setForeground(new java.awt.Color(0, 0, 51));
+        txtTemperatura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTemperaturaActionPerformed(evt);
+            }
+        });
+        jPanelPerecedero.add(txtTemperatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 280, 30));
+
+        jPanel1.add(jPanelPerecedero, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 180, 320, 230));
 
         jPanelMateriaPrima.setBackground(new java.awt.Color(0, 0, 0));
         jPanelMateriaPrima.setForeground(new java.awt.Color(245, 247, 255));
@@ -208,7 +256,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         });
         jPanelMateriaPrima.add(txtConcentracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 280, 30));
 
-        jPanel1.add(jPanelMateriaPrima, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 180, 370, 230));
+        jPanel1.add(jPanelMateriaPrima, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 180, 310, 230));
 
         jPanelElectronico.setBackground(new java.awt.Color(0, 0, 0));
         jPanelElectronico.setForeground(new java.awt.Color(245, 247, 255));
@@ -260,60 +308,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         });
         jPanelElectronico.add(txtVoltaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 280, 30));
 
-        jPanel1.add(jPanelElectronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 180, 370, 230));
-
-        jPanelPerecedero.setBackground(new java.awt.Color(0, 0, 0));
-        jPanelPerecedero.setForeground(new java.awt.Color(245, 247, 255));
-        jPanelPerecedero.setOpaque(false);
-        jPanelPerecedero.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblDiasVigencia.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblDiasVigencia.setForeground(new java.awt.Color(0, 0, 51));
-        lblDiasVigencia.setText("Días de Vigencia");
-        jPanelPerecedero.add(lblDiasVigencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
-
-        lblTemperatura.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTemperatura.setForeground(new java.awt.Color(0, 0, 51));
-        lblTemperatura.setText("Temperatura (°C)");
-        jPanelPerecedero.add(lblTemperatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
-
-        lblFechaVencimiento.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblFechaVencimiento.setForeground(new java.awt.Color(0, 0, 51));
-        lblFechaVencimiento.setText("Fecha de Vencimiento");
-        jPanelPerecedero.add(lblFechaVencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
-
-        txtFechaVencimiento.setBackground(new java.awt.Color(237, 237, 255));
-        txtFechaVencimiento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtFechaVencimiento.setForeground(new java.awt.Color(0, 0, 51));
-        txtFechaVencimiento.setText("dd/mm/yyyy");
-        txtFechaVencimiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFechaVencimientoActionPerformed(evt);
-            }
-        });
-        jPanelPerecedero.add(txtFechaVencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 280, 30));
-
-        txtDiasVigencia.setBackground(new java.awt.Color(237, 237, 255));
-        txtDiasVigencia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtDiasVigencia.setForeground(new java.awt.Color(0, 0, 51));
-        txtDiasVigencia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDiasVigenciaActionPerformed(evt);
-            }
-        });
-        jPanelPerecedero.add(txtDiasVigencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 280, 30));
-
-        txtTemperatura.setBackground(new java.awt.Color(237, 237, 255));
-        txtTemperatura.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtTemperatura.setForeground(new java.awt.Color(0, 0, 51));
-        txtTemperatura.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTemperaturaActionPerformed(evt);
-            }
-        });
-        jPanelPerecedero.add(txtTemperatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 280, 30));
-
-        jPanel1.add(jPanelPerecedero, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 180, 370, 230));
+        jPanel1.add(jPanelElectronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 180, 320, 230));
 
         btnLimpiar.setBackground(new java.awt.Color(237, 237, 255));
         btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -324,7 +319,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
                 btnLimpiarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 440, 280, -1));
+        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 440, 280, -1));
 
         txtPrecio.setBackground(new java.awt.Color(237, 237, 255));
         txtPrecio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -334,7 +329,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
                 txtPrecioActionPerformed(evt);
             }
         });
-        jPanel1.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 230, 280, 30));
+        jPanel1.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 230, 280, 30));
 
         txtStockInicial.setBackground(new java.awt.Color(237, 237, 255));
         txtStockInicial.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -344,7 +339,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
                 txtStockInicialActionPerformed(evt);
             }
         });
-        jPanel1.add(txtStockInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 300, 280, 30));
+        jPanel1.add(txtStockInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 280, 30));
 
         txtStockMinimo.setBackground(new java.awt.Color(237, 237, 255));
         txtStockMinimo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -354,7 +349,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
                 txtStockMinimoActionPerformed(evt);
             }
         });
-        jPanel1.add(txtStockMinimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 370, 280, 30));
+        jPanel1.add(txtStockMinimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 370, 280, 30));
 
         btnRegistrar.setBackground(new java.awt.Color(237, 237, 255));
         btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -365,7 +360,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
                 btnRegistrarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 440, 280, -1));
+        jPanel1.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 440, 280, -1));
 
         lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/FondoPrincipal2.png"))); // NOI18N
         jPanel1.add(lblFondoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -396,10 +391,6 @@ public class RegistrarProducto extends javax.swing.JFrame {
     private void txtProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProveedorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtProveedorActionPerformed
-
-    private void txtFechaVencimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaVencimientoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaVencimientoActionPerformed
 
     private void txtTemperaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTemperaturaActionPerformed
         // TODO add your handling code here:
@@ -437,7 +428,6 @@ public class RegistrarProducto extends javax.swing.JFrame {
         txtPrecio.setText("");
         txtStockInicial.setText("");
         txtStockMinimo.setText("");
-        txtFechaVencimiento.setText("");
         txtTemperatura.setText("");
         txtDiasVigencia.setText("");
         txtNumeroSerie.setText("");
@@ -480,6 +470,16 @@ public class RegistrarProducto extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
+        /*
+        posibles joptionpane:
+        producto registrado correctamente
+        ya existe un producto con ese codigo
+        datos inválidos
+        */
+        Date mFecha= jDateChooser.getDate();
+        long fecha= mFecha.getTime();
+        java.sql.Date fecha_sql= new java.sql.Date(fecha);
+        System.out.println("FECHA: "+fecha_sql);
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
@@ -524,6 +524,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnRegistrar;
     private javax.swing.JButton btnRegistro;
     private javax.swing.JComboBox<String> jComboBox1;
+    private com.toedter.calendar.JDateChooser jDateChooser;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelElectronico;
     private javax.swing.JPanel jPanelMateriaPrima;
@@ -547,7 +548,6 @@ public class RegistrarProducto extends javax.swing.JFrame {
     private javax.swing.JTextField txtCodigoProducto;
     private javax.swing.JTextField txtConcentracion;
     private javax.swing.JTextField txtDiasVigencia;
-    private javax.swing.JTextField txtFechaVencimiento;
     private javax.swing.JTextField txtGarantia;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNumeroSerie;

@@ -141,6 +141,8 @@ public class MenuInicio extends javax.swing.JFrame {
     private void btnEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntradaActionPerformed
         // TODO add your handling code here:
         System.out.println("Va a Entrada de Mercancía");
+        this.dispose();
+        new EntradaMercancia().setVisible(true);
     }//GEN-LAST:event_btnEntradaActionPerformed
 
     private void btnSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalidaActionPerformed
