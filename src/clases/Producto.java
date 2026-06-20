@@ -6,6 +6,7 @@ package clases;
 
 import Enums.CategoriaProducto;
 import Interfaces.Almacenable;
+import excepciones.StockInsuficienteException;
 import java.io.Serializable;
 
 /**
@@ -82,7 +83,7 @@ public abstract class Producto implements Almacenable, Serializable {
     public void actualizarStock(int cambio) {
         int nuevoStock = stockActual + cambio;
         if (nuevoStock < 0) {
-            throw new IllegalArgumentException("El stock no puede quedar negativo para el producto " + codigo);
+            throw new StockInsuficienteException(codigo);
         }
         stockActual = nuevoStock;
     }

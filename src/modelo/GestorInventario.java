@@ -1,7 +1,14 @@
 package modelo;
 
 import clases.Producto;
+import excepciones.DatosInvalidosInventarioException;
 import excepciones.ErrorEscrituraException;
+import excepciones.ProductoDuplicadoException;
+import excepciones.ProductoNoEncontradoException;
+import excepciones.StockInsuficienteException;
+import excepciones.TipoMovimientoInvalidoException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +21,8 @@ import persistencia.GestorPersistencia;
  * @author Aguilar
  */
 public class GestorInventario {
+
+    private static final DateTimeFormatter FORMATO_ALERTA = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private final List<Producto> productos;
     private final List<MovimientoInventario> movimientos;
@@ -46,34 +55,34 @@ public class GestorInventario {
     public void registrarProducto(Producto producto) {
         validarProducto(producto);
         if (buscarPorCodigo(producto.getCodigo()) != null) {
-            throw new IllegalArgumentException("Ya existe un producto con codigo: " + producto.getCodigo());
+            throw new ProductoDuplicadoException(producto.getCodigo());
         }
         productos.add(producto);
     }
 
     public void registrarMovimiento(MovimientoInventario movimiento) throws ErrorEscrituraException {
         if (movimiento == null) {
-            throw new IllegalArgumentException("El movimiento no puede ser nulo");
+            throw new DatosInvalidosInventarioException("El movimiento no puede ser nulo");
         }
 
         String tipo = normalizarTipoMovimiento(movimiento.getTipo());
         Producto producto = buscarPorCodigo(movimiento.getCodigoProducto());
         if (producto == null) {
-            throw new IllegalArgumentException("Producto no encontrado: " + movimiento.getCodigoProducto());
+            throw new ProductoNoEncontradoException(movimiento.getCodigoProducto());
         }
         if (movimiento.getCantidad() <= 0) {
-            throw new IllegalArgumentException("La cantidad del movimiento debe ser mayor que cero");
+            throw new DatosInvalidosInventarioException("La cantidad del movimiento debe ser mayor que cero");
         }
 
         if ("SALIDA".equals(tipo)) {
             if (!validarSalida(producto, movimiento.getCantidad())) {
-                throw new IllegalArgumentException("Salida invalida: stock insuficiente");
+                throw new StockInsuficienteException(producto.getCodigo());
             }
             producto.actualizarStock(-movimiento.getCantidad());
         } else if ("ENTRADA".equals(tipo)) {
             producto.actualizarStock(movimiento.getCantidad());
         } else {
-            throw new IllegalArgumentException("Tipo de movimiento no soportado: " + movimiento.getTipo());
+            throw new TipoMovimientoInvalidoException(movimiento.getTipo());
         }
 
         movimientos.add(movimiento);
@@ -109,7 +118,7 @@ public class GestorInventario {
         for (Producto producto : productos) {
             String alerta = producto.generarAlerta();
             if (alerta != null && !alerta.isBlank()) {
-                alertas.add(alerta);
+                alertas.add(formatearAlertaConFecha(alerta));
             }
         }
         return alertas;
@@ -149,13 +158,13 @@ public class GestorInventario {
 
     public void actualizarStock(int indice, int cambio) {
         if (indice < 0 || indice >= productos.size()) {
-            throw new IndexOutOfBoundsException("Indice de producto invalido: " + indice);
+            throw new DatosInvalidosInventarioException("Indice de producto invalido: " + indice);
         }
         if (cambio == 0) {
-            throw new IllegalArgumentException("El cambio de stock no puede ser cero");
+            throw new DatosInvalidosInventarioException("El cambio de stock no puede ser cero");
         }
         if (cambio < 0 && !validarSalida(indice, Math.abs(cambio))) {
-            throw new IllegalArgumentException("Salida invalida: stock insuficiente");
+            throw new StockInsuficienteException(productos.get(indice).getCodigo());
         }
         productos.get(indice).actualizarStock(cambio);
     }
@@ -187,20 +196,24 @@ public class GestorInventario {
 
     private void validarProducto(Producto producto) {
         if (producto == null) {
-            throw new IllegalArgumentException("El producto no puede ser nulo");
+            throw new DatosInvalidosInventarioException("El producto no puede ser nulo");
         }
         if (producto.getCodigo() == null || producto.getCodigo().isBlank()) {
-            throw new IllegalArgumentException("El producto debe tener codigo");
+            throw new DatosInvalidosInventarioException("El producto debe tener codigo");
         }
         if (producto.getStockActual() < 0) {
-            throw new IllegalArgumentException("El stock inicial no puede ser negativo");
+            throw new DatosInvalidosInventarioException("El stock inicial no puede ser negativo");
         }
         if (producto.getStockMinimo() < 0) {
-            throw new IllegalArgumentException("El stock minimo no puede ser negativo");
+            throw new DatosInvalidosInventarioException("El stock minimo no puede ser negativo");
         }
         if (producto.getPrecioUnitario() < 0) {
-            throw new IllegalArgumentException("El precio unitario no puede ser negativo");
+            throw new DatosInvalidosInventarioException("El precio unitario no puede ser negativo");
         }
+    }
+
+    private String formatearAlertaConFecha(String motivo) {
+        return String.format("[%s] %s", LocalDateTime.now().format(FORMATO_ALERTA), motivo);
     }
 
     private String normalizarTipoMovimiento(String tipo) {

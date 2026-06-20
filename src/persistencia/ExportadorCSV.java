@@ -8,6 +8,8 @@ import excepciones.ErrorEscrituraException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -17,6 +19,8 @@ import java.util.List;
 public class ExportadorCSV {
 
     public static final String ARCHIVO = "inventario_completo.csv";
+
+    private static final DateTimeFormatter FORMATO_ALERTA = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private static final String ENCABEZADO = "codigo,nombre,proveedor,categoria,precioUnitario,stockActual,stockMinimo,"
             + "valorStock,alerta,atributosExtra";
@@ -35,7 +39,7 @@ public class ExportadorCSV {
     }
 
     private String construirLinea(Producto producto) {
-        String alerta = producto.generarAlerta().replace(",", ";");
+        String alerta = formatearAlertaConFecha(producto.generarAlerta()).replace(",", ";");
         return String.format("%s,%s,%s,%s,%.2f,%d,%d,%.2f,%s,%s",
                 escapar(producto.getCodigo()),
                 escapar(producto.getNombre()),
@@ -78,5 +82,12 @@ public class ExportadorCSV {
             return "\"" + valor.replace("\"", "\"\"") + "\"";
         }
         return valor;
+    }
+
+    private String formatearAlertaConFecha(String motivo) {
+        if (motivo == null || motivo.isBlank()) {
+            return "";
+        }
+        return String.format("[%s] %s", LocalDateTime.now().format(FORMATO_ALERTA), motivo);
     }
 }

@@ -3,6 +3,8 @@ package persistencia;
 import clases.Producto;
 import excepciones.ArchivoNoEncontradoException;
 import excepciones.ErrorEscrituraException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.EstadisticasAlmacen;
@@ -15,6 +17,8 @@ import modelo.MovimientoInventario;
  * @author garrido
  */
 public class GestorPersistencia {
+
+    private static final DateTimeFormatter FORMATO_ALERTA = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private final LogMovimientosIO logMovimientos;
     private final EstadisticasAlmacenIO estadisticasIO;
@@ -69,7 +73,7 @@ public class GestorPersistencia {
         for (Producto producto : productos) {
             String alerta = producto.generarAlerta();
             if (alerta != null && !alerta.isBlank()) {
-                alertas.add(alerta);
+                alertas.add(formatearAlertaConFecha(alerta));
             }
         }
         return alertas;
@@ -94,5 +98,9 @@ public class GestorPersistencia {
         for (String alerta : alertas) {
             logMovimientos.registrarAlerta(alerta);
         }
+    }
+
+    private String formatearAlertaConFecha(String motivo) {
+        return String.format("[%s] %s", LocalDateTime.now().format(FORMATO_ALERTA), motivo);
     }
 }

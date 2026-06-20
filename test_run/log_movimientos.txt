@@ -3,3 +3,8 @@
 2026-06-17 00:12:13|ALERTA|SISTEMA|0|ALERTA: Stock bajo (2/5 min) - Monitor [E001]
 2026-06-17 00:12:13|ALERTA|SISTEMA|0|CRITICO: Sin existencias - Harina [M001] Contactar: Molinos
 2026-06-17 00:12:13|GUARDADO|SISTEMA|3|Persistencia completa: 3 productos, 3 alertas
+2026-06-20 01:36:14|ENTRADA|P001|5|Recepcion inicial
+2026-06-20 01:36:14|ALERTA|SISTEMA|0|[2026-06-20 01:36:14] ALERTA: Vence en 3 dias - Leche [P001]
+2026-06-20 01:36:14|ALERTA|SISTEMA|0|[2026-06-20 01:36:14] ALERTA: Stock bajo (2/5 min) - Monitor [E001]
+2026-06-20 01:36:14|ALERTA|SISTEMA|0|[2026-06-20 01:36:14] CRITICO: Sin existencias - Harina [M001] Contactar: Molinos
+2026-06-20 01:36:14|GUARDADO|SISTEMA|3|Persistencia completa: 3 productos, 3 alertas
