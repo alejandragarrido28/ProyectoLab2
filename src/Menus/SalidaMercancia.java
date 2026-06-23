@@ -30,25 +30,23 @@ public class SalidaMercancia extends javax.swing.JFrame {
         btnRegistro = new javax.swing.JButton();
         btnBack = new javax.swing.JToggleButton();
         lblTituloCodigo = new javax.swing.JLabel();
-        lblTituloCategoria = new javax.swing.JLabel();
-        lblTituloCant = new javax.swing.JLabel();
-        lblTituloResumen = new javax.swing.JLabel();
         lblPrecioUnitario = new javax.swing.JLabel();
-        lblTituloMotivo = new javax.swing.JLabel();
-        lblTituloStockAntes = new javax.swing.JLabel();
-        lblTituloStockDespues = new javax.swing.JLabel();
-        lblTituloStockActual = new javax.swing.JLabel();
         txtCodigoProducto = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
-        txtStockActual = new javax.swing.JTextField();
-        txtCategoria = new javax.swing.JTextField();
-        txtCant = new javax.swing.JTextField();
-        txtMotivo = new javax.swing.JTextField();
-        txtStockAntes = new javax.swing.JTextField();
-        txtStockDespues = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JToggleButton();
         btnSalida = new javax.swing.JToggleButton();
         btnLimpiar = new javax.swing.JToggleButton();
+        txtCategoria = new javax.swing.JTextField();
+        lblTituloCategoria = new javax.swing.JLabel();
+        lblTituloStockActual = new javax.swing.JLabel();
+        txtStockActual = new javax.swing.JTextField();
+        txtMotivo = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        lblTituloMotivo = new javax.swing.JLabel();
+        lblTituloCant = new javax.swing.JLabel();
+        txtCant = new javax.swing.JTextField();
+        txtStockDespues = new javax.swing.JTextField();
+        lblTituloStockDespues = new javax.swing.JLabel();
         lblFondoInicio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -83,49 +81,15 @@ public class SalidaMercancia extends javax.swing.JFrame {
         lblTituloCodigo.setText("Código Producto");
         jPanel1.add(lblTituloCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, -1, -1));
 
-        lblTituloCategoria.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTituloCategoria.setForeground(new java.awt.Color(0, 0, 51));
-        lblTituloCategoria.setText("Categoría");
-        jPanel1.add(lblTituloCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, -1, -1));
-
-        lblTituloCant.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTituloCant.setForeground(new java.awt.Color(0, 0, 51));
-        lblTituloCant.setText("Cantidad a Retirar");
-        jPanel1.add(lblTituloCant, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 270, -1, -1));
-
-        lblTituloResumen.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTituloResumen.setForeground(new java.awt.Color(0, 0, 51));
-        lblTituloResumen.setText("RESUMEN");
-        jPanel1.add(lblTituloResumen, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 340, -1, -1));
-
         lblPrecioUnitario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblPrecioUnitario.setForeground(new java.awt.Color(0, 0, 51));
         lblPrecioUnitario.setText("Nombre del Producto");
         jPanel1.add(lblPrecioUnitario, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, -1, -1));
 
-        lblTituloMotivo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTituloMotivo.setForeground(new java.awt.Color(0, 0, 51));
-        lblTituloMotivo.setText("Motivo / Detalle");
-        jPanel1.add(lblTituloMotivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 270, -1, -1));
-
-        lblTituloStockAntes.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTituloStockAntes.setForeground(new java.awt.Color(0, 0, 51));
-        lblTituloStockAntes.setText("Stock Antes");
-        jPanel1.add(lblTituloStockAntes, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, -1, -1));
-
-        lblTituloStockDespues.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTituloStockDespues.setForeground(new java.awt.Color(0, 0, 51));
-        lblTituloStockDespues.setText("Stock Después");
-        jPanel1.add(lblTituloStockDespues, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 380, 130, -1));
-
-        lblTituloStockActual.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTituloStockActual.setForeground(new java.awt.Color(0, 0, 51));
-        lblTituloStockActual.setText("Stock Actual");
-        jPanel1.add(lblTituloStockActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 200, -1, -1));
-
-        txtCodigoProducto.setBackground(new java.awt.Color(237, 237, 255));
+        txtCodigoProducto.setBackground(new java.awt.Color(255, 255, 255));
         txtCodigoProducto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtCodigoProducto.setForeground(new java.awt.Color(0, 0, 51));
+        txtCodigoProducto.setCaretColor(new java.awt.Color(154, 154, 154));
         txtCodigoProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCodigoProductoActionPerformed(evt);
@@ -143,70 +107,6 @@ public class SalidaMercancia extends javax.swing.JFrame {
             }
         });
         jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 230, 280, 30));
-
-        txtStockActual.setEditable(false);
-        txtStockActual.setBackground(new java.awt.Color(237, 237, 255));
-        txtStockActual.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtStockActual.setForeground(new java.awt.Color(0, 0, 51));
-        txtStockActual.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStockActualActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtStockActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 230, 280, 30));
-
-        txtCategoria.setEditable(false);
-        txtCategoria.setBackground(new java.awt.Color(237, 237, 255));
-        txtCategoria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtCategoria.setForeground(new java.awt.Color(0, 0, 51));
-        txtCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCategoriaActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 280, 30));
-
-        txtCant.setBackground(new java.awt.Color(237, 237, 255));
-        txtCant.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtCant.setForeground(new java.awt.Color(0, 0, 51));
-        txtCant.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCantActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtCant, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 280, 30));
-
-        txtMotivo.setBackground(new java.awt.Color(237, 237, 255));
-        txtMotivo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtMotivo.setForeground(new java.awt.Color(0, 0, 51));
-        txtMotivo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMotivoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtMotivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 300, 280, 30));
-
-        txtStockAntes.setEditable(false);
-        txtStockAntes.setBackground(new java.awt.Color(237, 237, 255));
-        txtStockAntes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtStockAntes.setForeground(new java.awt.Color(0, 0, 51));
-        txtStockAntes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStockAntesActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtStockAntes, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 380, 320, 30));
-
-        txtStockDespues.setEditable(false);
-        txtStockDespues.setBackground(new java.awt.Color(237, 237, 255));
-        txtStockDespues.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtStockDespues.setForeground(new java.awt.Color(0, 0, 51));
-        txtStockDespues.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStockDespuesActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtStockDespues, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 380, 300, 30));
 
         btnBuscar.setBackground(new java.awt.Color(237, 237, 255));
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -233,13 +133,106 @@ public class SalidaMercancia extends javax.swing.JFrame {
         btnLimpiar.setBackground(new java.awt.Color(237, 237, 255));
         btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLimpiar.setForeground(new java.awt.Color(0, 0, 51));
-        btnLimpiar.setText("Limpiar Casillas de Información");
+        btnLimpiar.setText("Nueva Salida");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
             }
         });
         jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 440, 280, -1));
+
+        txtCategoria.setEditable(false);
+        txtCategoria.setBackground(new java.awt.Color(237, 237, 255));
+        txtCategoria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCategoria.setForeground(new java.awt.Color(0, 0, 51));
+        txtCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCategoriaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 230, 280, 30));
+
+        lblTituloCategoria.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTituloCategoria.setForeground(new java.awt.Color(0, 0, 51));
+        lblTituloCategoria.setText("Categoría");
+        jPanel1.add(lblTituloCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 200, -1, -1));
+
+        lblTituloStockActual.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTituloStockActual.setForeground(new java.awt.Color(0, 0, 51));
+        lblTituloStockActual.setText("Stock Actual");
+        jPanel1.add(lblTituloStockActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 270, -1, -1));
+
+        txtStockActual.setEditable(false);
+        txtStockActual.setBackground(new java.awt.Color(237, 237, 255));
+        txtStockActual.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtStockActual.setForeground(new java.awt.Color(0, 0, 51));
+        txtStockActual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtStockActualActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtStockActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 300, 280, 30));
+
+        txtMotivo.setEditable(false);
+        txtMotivo.setBackground(new java.awt.Color(237, 237, 255));
+        txtMotivo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMotivo.setForeground(new java.awt.Color(0, 0, 51));
+        txtMotivo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        txtMotivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMotivoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtMotivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 360, 510, 30));
+
+        jComboBox1.setBackground(new java.awt.Color(237, 237, 255));
+        jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jComboBox1.setForeground(new java.awt.Color(0, 0, 51));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Devolución", "Traslado Sucursal", "Producto Nuevo", "Otros" }));
+        jComboBox1.setOpaque(true);
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 360, 200, 30));
+
+        lblTituloMotivo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTituloMotivo.setForeground(new java.awt.Color(0, 0, 51));
+        lblTituloMotivo.setText("Motivo / Detalle");
+        jPanel1.add(lblTituloMotivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 360, -1, -1));
+
+        lblTituloCant.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTituloCant.setForeground(new java.awt.Color(0, 0, 51));
+        lblTituloCant.setText("Cantidad a Retirar");
+        jPanel1.add(lblTituloCant, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, -1, -1));
+
+        txtCant.setBackground(new java.awt.Color(255, 255, 255));
+        txtCant.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCant.setForeground(new java.awt.Color(0, 0, 51));
+        txtCant.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        txtCant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCantActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtCant, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 280, 30));
+
+        txtStockDespues.setEditable(false);
+        txtStockDespues.setBackground(new java.awt.Color(237, 237, 255));
+        txtStockDespues.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtStockDespues.setForeground(new java.awt.Color(0, 0, 51));
+        txtStockDespues.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtStockDespuesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtStockDespues, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 280, -1));
+
+        lblTituloStockDespues.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTituloStockDespues.setForeground(new java.awt.Color(0, 0, 51));
+        lblTituloStockDespues.setText("Stock Estimado");
+        jPanel1.add(lblTituloStockDespues, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 270, -1, -1));
 
         lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/FondoPrincipal2.png"))); // NOI18N
         jPanel1.add(lblFondoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -263,14 +256,6 @@ public class SalidaMercancia extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoProductoActionPerformed
 
-    private void txtCantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCantActionPerformed
-
-    private void txtStockDespuesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockDespuesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStockDespuesActionPerformed
-
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         // TODO add your handling code here:
         txtCodigoProducto.setText("");
@@ -279,21 +264,12 @@ public class SalidaMercancia extends javax.swing.JFrame {
         txtCategoria.setText("");
         txtCant.setText("");
         txtMotivo.setText("");
-        txtStockAntes.setText("");
         txtStockDespues.setText("");
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
-
-    private void txtMotivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMotivoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMotivoActionPerformed
-
-    private void txtStockActualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockActualActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStockActualActionPerformed
 
     private void btnSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalidaActionPerformed
         // TODO add your handling code here:
@@ -303,10 +279,6 @@ public class SalidaMercancia extends javax.swing.JFrame {
         -stock insuficiente
         */
     }//GEN-LAST:event_btnSalidaActionPerformed
-
-    private void txtStockAntesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockAntesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStockAntesActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
@@ -322,6 +294,27 @@ public class SalidaMercancia extends javax.swing.JFrame {
     private void txtCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoriaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCategoriaActionPerformed
+
+    private void txtStockActualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockActualActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtStockActualActionPerformed
+
+    private void txtMotivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMotivoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMotivoActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void txtCantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantActionPerformed
+
+    private void txtStockDespuesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockDespuesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtStockDespuesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -371,6 +364,7 @@ public class SalidaMercancia extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnLimpiar;
     private javax.swing.JButton btnRegistro;
     private javax.swing.JToggleButton btnSalida;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblFondoInicio;
     private javax.swing.JLabel lblPrecioUnitario;
@@ -378,9 +372,7 @@ public class SalidaMercancia extends javax.swing.JFrame {
     private javax.swing.JLabel lblTituloCategoria;
     private javax.swing.JLabel lblTituloCodigo;
     private javax.swing.JLabel lblTituloMotivo;
-    private javax.swing.JLabel lblTituloResumen;
     private javax.swing.JLabel lblTituloStockActual;
-    private javax.swing.JLabel lblTituloStockAntes;
     private javax.swing.JLabel lblTituloStockDespues;
     private javax.swing.JTextField txtCant;
     private javax.swing.JTextField txtCategoria;
@@ -388,7 +380,6 @@ public class SalidaMercancia extends javax.swing.JFrame {
     private javax.swing.JTextField txtMotivo;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtStockActual;
-    private javax.swing.JTextField txtStockAntes;
     private javax.swing.JTextField txtStockDespues;
     // End of variables declaration//GEN-END:variables
 }

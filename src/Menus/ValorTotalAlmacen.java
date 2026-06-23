@@ -71,7 +71,7 @@ public class ValorTotalAlmacen extends javax.swing.JFrame {
         btnRecalcular.setBackground(new java.awt.Color(237, 237, 255));
         btnRecalcular.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRecalcular.setForeground(new java.awt.Color(0, 0, 51));
-        btnRecalcular.setText("Recalcular");
+        btnRecalcular.setText("Refresh");
         btnRecalcular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRecalcularActionPerformed(evt);

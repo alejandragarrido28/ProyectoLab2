@@ -313,7 +313,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         btnLimpiar.setBackground(new java.awt.Color(237, 237, 255));
         btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLimpiar.setForeground(new java.awt.Color(0, 0, 51));
-        btnLimpiar.setText("Limpiar Casillas de Información");
+        btnLimpiar.setText("Registrar Nuevo Producto");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
@@ -376,6 +376,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+        //atras a izq
         this.dispose();
         new MenuInicio().setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
@@ -422,6 +423,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         // TODO add your handling code here:
+        //limpiar a Registrar nuevo producto
         txtCodigoProducto.setText("");
         txtNombre.setText("");
         txtProveedor.setText("");

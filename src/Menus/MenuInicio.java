@@ -148,11 +148,15 @@ public class MenuInicio extends javax.swing.JFrame {
     private void btnSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalidaActionPerformed
         // TODO add your handling code here:
         System.out.println("Va a Salida de Mercancía");
+        this.dispose();
+        new SalidaMercancia().setVisible(true);
     }//GEN-LAST:event_btnSalidaActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
         // TODO add your handling code here:
         System.out.println("Va a Reportes de Alertas");
+        this.dispose();
+        new ReportesAlertas().setVisible(true);
     }//GEN-LAST:event_btnReportesActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -165,16 +169,22 @@ public class MenuInicio extends javax.swing.JFrame {
     private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
         // TODO add your handling code here:
         System.out.println("Va a Historial de Movimientos");
+        this.dispose();
+        new HistorialMovimientos().setVisible(true);
     }//GEN-LAST:event_btnHistorialActionPerformed
 
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
         // TODO add your handling code here:
         System.out.println("Va a Exportar Inventario");
+        this.dispose();
+        new ExportarInventario().setVisible(true);
     }//GEN-LAST:event_btnExportarActionPerformed
 
     private void btnValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValorActionPerformed
         // TODO add your handling code here:
         System.out.println("Va a valor total del almacen");
+        this.dispose();
+        new ValorTotalAlmacen().setVisible(true);
     }//GEN-LAST:event_btnValorActionPerformed
 
     /**

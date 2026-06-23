@@ -50,7 +50,7 @@ public class ExportarInventario extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 204, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/btnEntrada2.png"))); // NOI18N
+        btnRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/btnExportar.png"))); // NOI18N
         btnRegistro.setBorderPainted(false);
         btnRegistro.setContentAreaFilled(false);
         btnRegistro.addActionListener(new java.awt.event.ActionListener() {

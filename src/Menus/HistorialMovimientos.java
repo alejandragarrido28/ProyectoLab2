@@ -4,24 +4,19 @@
  */
 package Menus;
 
-import java.awt.Color;
-
 /**
  *
  * @author valer
  */
-public class ReportesAlertas extends javax.swing.JFrame {
+public class HistorialMovimientos extends javax.swing.JFrame {
 
     /**
      * Creates new form MenuInicio
      */
-    public ReportesAlertas() {
+    public HistorialMovimientos() {
         initComponents();
     }
 
-    /*
-    preguntar si aqui ocupan exportar alertas tipo como archivo
-    */
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,10 +28,13 @@ public class ReportesAlertas extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnRegistro = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         btnBack = new javax.swing.JToggleButton();
-        lblTituloTotalAlertasActivas = new javax.swing.JLabel();
-        txtTotalAlertasActivas = new javax.swing.JTextField();
-        btnActualizar = new javax.swing.JToggleButton();
+        btnBuscar = new javax.swing.JToggleButton();
+        Refresh = new javax.swing.JToggleButton();
+        lblTituloFiltro = new javax.swing.JLabel();
+        lblTotalProductos = new javax.swing.JLabel();
+        txtTotalProductos = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         lblFondoInicio = new javax.swing.JLabel();
@@ -47,7 +45,7 @@ public class ReportesAlertas extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 204, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/btnReportes.png"))); // NOI18N
+        btnRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/btnHistorial.png"))); // NOI18N
         btnRegistro.setBorderPainted(false);
         btnRegistro.setContentAreaFilled(false);
         btnRegistro.addActionListener(new java.awt.event.ActionListener() {
@@ -56,6 +54,18 @@ public class ReportesAlertas extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 520, 50));
+
+        jComboBox1.setBackground(new java.awt.Color(237, 237, 255));
+        jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jComboBox1.setForeground(new java.awt.Color(0, 0, 51));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Entrada", "Salida", "Alertas", "Guardado" }));
+        jComboBox1.setOpaque(true);
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 280, 30));
 
         btnBack.setBackground(new java.awt.Color(237, 237, 255));
         btnBack.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -66,47 +76,64 @@ public class ReportesAlertas extends javax.swing.JFrame {
                 btnBackActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, -1, -1));
+        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, -1, -1));
 
-        lblTituloTotalAlertasActivas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTituloTotalAlertasActivas.setForeground(new java.awt.Color(0, 0, 51));
-        lblTituloTotalAlertasActivas.setText("Total Alertas Activas");
-        jPanel1.add(lblTituloTotalAlertasActivas, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, -1, -1));
-
-        txtTotalAlertasActivas.setEditable(false);
-        txtTotalAlertasActivas.setBackground(new java.awt.Color(237, 237, 255));
-        txtTotalAlertasActivas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtTotalAlertasActivas.setForeground(new java.awt.Color(0, 0, 51));
-        txtTotalAlertasActivas.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscar.setBackground(new java.awt.Color(237, 237, 255));
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(0, 0, 51));
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTotalAlertasActivasActionPerformed(evt);
+                btnBuscarActionPerformed(evt);
             }
         });
-        jPanel1.add(txtTotalAlertasActivas, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 180, 220, 30));
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 210, 290, -1));
 
-        btnActualizar.setBackground(new java.awt.Color(237, 237, 255));
-        btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnActualizar.setForeground(new java.awt.Color(0, 0, 51));
-        btnActualizar.setText("Refresh");
-        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+        Refresh.setBackground(new java.awt.Color(237, 237, 255));
+        Refresh.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Refresh.setForeground(new java.awt.Color(0, 0, 51));
+        Refresh.setText("Refresh");
+        Refresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarActionPerformed(evt);
+                RefreshActionPerformed(evt);
             }
         });
-        jPanel1.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 480, 280, -1));
+        jPanel1.add(Refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 480, 280, -1));
+
+        lblTituloFiltro.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTituloFiltro.setForeground(new java.awt.Color(0, 0, 51));
+        lblTituloFiltro.setText("Filtro");
+        jPanel1.add(lblTituloFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, -1));
+
+        lblTotalProductos.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTotalProductos.setForeground(new java.awt.Color(0, 0, 51));
+        lblTotalProductos.setText("Buscar Código Producto");
+        jPanel1.add(lblTotalProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 180, -1, -1));
+
+        txtTotalProductos.setBackground(new java.awt.Color(255, 255, 255));
+        txtTotalProductos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTotalProductos.setForeground(new java.awt.Color(0, 0, 51));
+        txtTotalProductos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(154, 154, 154)));
+        txtTotalProductos.setCaretColor(new java.awt.Color(154, 154, 154));
+        txtTotalProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTotalProductosActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtTotalProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 210, 280, 30));
 
         jTable1.setBackground(new java.awt.Color(255, 255, 234));
         jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable1.setForeground(new java.awt.Color(0, 0, 0));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Fecha", "Tipo", "Codigo", "Producto", "Estado", "Motivo/Detalle"
+                "Fecha", "Tipo", "Código", "Cantidad"
             }
         ));
         jTable1.setFillsViewportHeight(true);
@@ -116,7 +143,7 @@ public class ReportesAlertas extends javax.swing.JFrame {
         jTable1.setShowGrid(false);
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, 830, 240));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 880, 220));
 
         lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/FondoPrincipal2.png"))); // NOI18N
         jPanel1.add(lblFondoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -136,18 +163,27 @@ public class ReportesAlertas extends javax.swing.JFrame {
         new MenuInicio().setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+    private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
         // TODO add your handling code here:
         /*
         posibles joptionpane:
         -salida registrada correctamente
         -stock insuficiente
         */
-    }//GEN-LAST:event_btnActualizarActionPerformed
+    }//GEN-LAST:event_RefreshActionPerformed
 
-    private void txtTotalAlertasActivasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalAlertasActivasActionPerformed
+    private void txtTotalProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalProductosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTotalAlertasActivasActionPerformed
+    }//GEN-LAST:event_txtTotalProductosActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,13 +202,13 @@ public class ReportesAlertas extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ReportesAlertas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HistorialMovimientos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ReportesAlertas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HistorialMovimientos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ReportesAlertas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HistorialMovimientos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ReportesAlertas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HistorialMovimientos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -194,20 +230,23 @@ public class ReportesAlertas extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ReportesAlertas().setVisible(true);
+                new HistorialMovimientos().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btnActualizar;
+    private javax.swing.JToggleButton Refresh;
     private javax.swing.JToggleButton btnBack;
+    private javax.swing.JToggleButton btnBuscar;
     private javax.swing.JButton btnRegistro;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblFondoInicio;
-    private javax.swing.JLabel lblTituloTotalAlertasActivas;
-    private javax.swing.JTextField txtTotalAlertasActivas;
+    private javax.swing.JLabel lblTituloFiltro;
+    private javax.swing.JLabel lblTotalProductos;
+    private javax.swing.JTextField txtTotalProductos;
     // End of variables declaration//GEN-END:variables
 }
