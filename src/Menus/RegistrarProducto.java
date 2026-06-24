@@ -5,13 +5,20 @@
 package Menus;
 
 import java.util.Date;
-
+import clases.*;
+import Enums.CategoriaProducto;
+import excepciones.*;
+import modelo.GestorInventario;
+import javax.swing.JOptionPane;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 /**
  *
  * @author valer
  */
 public class RegistrarProducto extends javax.swing.JFrame {
 
+    private boolean actualizandoFecha= false;
     /**
      * Creates new form MenuInicio
      */
@@ -20,8 +27,76 @@ public class RegistrarProducto extends javax.swing.JFrame {
         jPanelPerecedero.setVisible(true);
         jPanelElectronico.setVisible(false);
         jPanelMateriaPrima.setVisible(false);
+        configurarListenersFecha();
     }
 
+    public void configurarListenersFecha()
+    {
+        jDateChooser.getDateEditor().addPropertyChangeListener("date", evt -> {
+        if(actualizandoFecha==true)
+        {
+            return;
+        }
+        Date fecha = jDateChooser.getDate();
+        if (fecha != null) 
+        {
+            long diff = fecha.getTime() - new Date().getTime();
+            long dias = diff / (1000 * 60 * 60 * 24);
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                actualizandoFecha=true;
+                try
+                {
+                    txtDiasVigencia.setText(String.valueOf(dias));
+                }
+                finally
+                {
+                    actualizandoFecha=false;
+                }
+            });
+            
+        }
+    });
+
+    // Días de vigencia → Fecha
+    txtDiasVigencia.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+
+        private void calcularFecha() 
+        {
+            if (actualizandoFecha) 
+            {
+                return;
+            }
+            actualizandoFecha = true;
+            try 
+            {
+                String texto = txtDiasVigencia.getText().trim();
+                if (!texto.isEmpty()) 
+                {
+                    int dias = Integer.parseInt(texto);
+                    java.util.Calendar cal = java.util.Calendar.getInstance();
+                    cal.add(java.util.Calendar.DAY_OF_YEAR, dias);
+                    
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        jDateChooser.setDate(cal.getTime());
+                        actualizandoFecha=false;
+                    });
+                }
+                else
+                {
+                    actualizandoFecha=false;
+                }
+            }
+            catch (NumberFormatException ignored) 
+            {
+                actualizandoFecha= false;
+            }
+        }
+
+        public void insertUpdate(javax.swing.event.DocumentEvent e) { calcularFecha(); }
+        public void removeUpdate(javax.swing.event.DocumentEvent e) { calcularFecha(); }
+        public void changedUpdate(javax.swing.event.DocumentEvent e) {}
+    });
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,7 +108,6 @@ public class RegistrarProducto extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnRegistro = new javax.swing.JButton();
-        btnBack = new javax.swing.JToggleButton();
         lblTituloCodigo = new javax.swing.JLabel();
         lblTituloNombre = new javax.swing.JLabel();
         lblTituloProveedor = new javax.swing.JLabel();
@@ -69,6 +143,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         txtStockInicial = new javax.swing.JTextField();
         txtStockMinimo = new javax.swing.JTextField();
         btnRegistrar = new javax.swing.JToggleButton();
+        btnBack = new javax.swing.JToggleButton();
         lblFondoInicio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -86,17 +161,6 @@ public class RegistrarProducto extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 520, 50));
-
-        btnBack.setBackground(new java.awt.Color(237, 237, 255));
-        btnBack.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnBack.setForeground(new java.awt.Color(0, 0, 51));
-        btnBack.setText("Atrás");
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBackActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, -1, -1));
 
         lblTituloCodigo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTituloCodigo.setForeground(new java.awt.Color(0, 0, 51));
@@ -145,7 +209,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         });
         jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 440, 280, 30));
 
-        txtCodigoProducto.setBackground(new java.awt.Color(237, 237, 255));
+        txtCodigoProducto.setBackground(new java.awt.Color(255, 255, 255));
         txtCodigoProducto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtCodigoProducto.setForeground(new java.awt.Color(0, 0, 51));
         txtCodigoProducto.addActionListener(new java.awt.event.ActionListener() {
@@ -155,7 +219,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         });
         jPanel1.add(txtCodigoProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, 280, 30));
 
-        txtNombre.setBackground(new java.awt.Color(237, 237, 255));
+        txtNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNombre.setForeground(new java.awt.Color(0, 0, 51));
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -165,7 +229,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         });
         jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 280, 30));
 
-        txtProveedor.setBackground(new java.awt.Color(237, 237, 255));
+        txtProveedor.setBackground(new java.awt.Color(255, 255, 255));
         txtProveedor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtProveedor.setForeground(new java.awt.Color(0, 0, 51));
         txtProveedor.addActionListener(new java.awt.event.ActionListener() {
@@ -199,7 +263,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         jDateChooser.setForeground(new java.awt.Color(0, 0, 51));
         jPanelPerecedero.add(jDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 280, -1));
 
-        txtDiasVigencia.setBackground(new java.awt.Color(237, 237, 255));
+        txtDiasVigencia.setBackground(new java.awt.Color(255, 255, 255));
         txtDiasVigencia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtDiasVigencia.setForeground(new java.awt.Color(0, 0, 51));
         txtDiasVigencia.addActionListener(new java.awt.event.ActionListener() {
@@ -209,7 +273,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         });
         jPanelPerecedero.add(txtDiasVigencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 280, 30));
 
-        txtTemperatura.setBackground(new java.awt.Color(237, 237, 255));
+        txtTemperatura.setBackground(new java.awt.Color(255, 255, 255));
         txtTemperatura.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtTemperatura.setForeground(new java.awt.Color(0, 0, 51));
         txtTemperatura.addActionListener(new java.awt.event.ActionListener() {
@@ -236,7 +300,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         lblTituloConcentracion.setText("Concentración");
         jPanelMateriaPrima.add(lblTituloConcentracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
-        txtUnidadMedida.setBackground(new java.awt.Color(237, 237, 255));
+        txtUnidadMedida.setBackground(new java.awt.Color(255, 255, 255));
         txtUnidadMedida.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtUnidadMedida.setForeground(new java.awt.Color(0, 0, 51));
         txtUnidadMedida.addActionListener(new java.awt.event.ActionListener() {
@@ -246,7 +310,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         });
         jPanelMateriaPrima.add(txtUnidadMedida, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 280, 30));
 
-        txtConcentracion.setBackground(new java.awt.Color(237, 237, 255));
+        txtConcentracion.setBackground(new java.awt.Color(255, 255, 255));
         txtConcentracion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtConcentracion.setForeground(new java.awt.Color(0, 0, 51));
         txtConcentracion.addActionListener(new java.awt.event.ActionListener() {
@@ -278,7 +342,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         lblTituloVoltaje.setText("Voltaje");
         jPanelElectronico.add(lblTituloVoltaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
 
-        txtNumeroSerie.setBackground(new java.awt.Color(237, 237, 255));
+        txtNumeroSerie.setBackground(new java.awt.Color(255, 255, 255));
         txtNumeroSerie.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNumeroSerie.setForeground(new java.awt.Color(0, 0, 51));
         txtNumeroSerie.addActionListener(new java.awt.event.ActionListener() {
@@ -288,7 +352,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         });
         jPanelElectronico.add(txtNumeroSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 280, 30));
 
-        txtGarantia.setBackground(new java.awt.Color(237, 237, 255));
+        txtGarantia.setBackground(new java.awt.Color(255, 255, 255));
         txtGarantia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtGarantia.setForeground(new java.awt.Color(0, 0, 51));
         txtGarantia.addActionListener(new java.awt.event.ActionListener() {
@@ -298,7 +362,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         });
         jPanelElectronico.add(txtGarantia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 280, 30));
 
-        txtVoltaje.setBackground(new java.awt.Color(237, 237, 255));
+        txtVoltaje.setBackground(new java.awt.Color(255, 255, 255));
         txtVoltaje.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtVoltaje.setForeground(new java.awt.Color(0, 0, 51));
         txtVoltaje.addActionListener(new java.awt.event.ActionListener() {
@@ -321,7 +385,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         });
         jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 440, 280, -1));
 
-        txtPrecio.setBackground(new java.awt.Color(237, 237, 255));
+        txtPrecio.setBackground(new java.awt.Color(255, 255, 255));
         txtPrecio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtPrecio.setForeground(new java.awt.Color(0, 0, 51));
         txtPrecio.addActionListener(new java.awt.event.ActionListener() {
@@ -331,7 +395,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         });
         jPanel1.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 230, 280, 30));
 
-        txtStockInicial.setBackground(new java.awt.Color(237, 237, 255));
+        txtStockInicial.setBackground(new java.awt.Color(255, 255, 255));
         txtStockInicial.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtStockInicial.setForeground(new java.awt.Color(0, 0, 51));
         txtStockInicial.addActionListener(new java.awt.event.ActionListener() {
@@ -341,7 +405,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         });
         jPanel1.add(txtStockInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 280, 30));
 
-        txtStockMinimo.setBackground(new java.awt.Color(237, 237, 255));
+        txtStockMinimo.setBackground(new java.awt.Color(255, 255, 255));
         txtStockMinimo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtStockMinimo.setForeground(new java.awt.Color(0, 0, 51));
         txtStockMinimo.addActionListener(new java.awt.event.ActionListener() {
@@ -362,7 +426,18 @@ public class RegistrarProducto extends javax.swing.JFrame {
         });
         jPanel1.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 440, 280, -1));
 
-        lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/FondoPrincipal2.png"))); // NOI18N
+        btnBack.setBackground(new java.awt.Color(237, 237, 255));
+        btnBack.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        btnBack.setForeground(new java.awt.Color(0, 0, 51));
+        btnBack.setText("Atrás");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 60, -1));
+
+        lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondoPrincipal3.png"))); // NOI18N
         jPanel1.add(lblFondoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, -1));
@@ -373,13 +448,6 @@ public class RegistrarProducto extends javax.swing.JFrame {
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegistroActionPerformed
-
-    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-        //atras a izq
-        this.dispose();
-        new MenuInicio().setVisible(true);
-    }//GEN-LAST:event_btnBackActionPerformed
 
     private void txtCodigoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoProductoActionPerformed
         // TODO add your handling code here:
@@ -478,11 +546,130 @@ public class RegistrarProducto extends javax.swing.JFrame {
         ya existe un producto con ese codigo
         datos inválidos
         */
-        Date mFecha= jDateChooser.getDate();
-        long fecha= mFecha.getTime();
-        java.sql.Date fecha_sql= new java.sql.Date(fecha);
-        System.out.println("FECHA: "+fecha_sql);
+        String codigo= txtCodigoProducto.getText().trim();
+        String nombre= txtNombre.getText().trim();
+        String proveedor= txtProveedor.getText().trim();
+        String precioTxt= txtPrecio.getText().trim();
+        String stockInicialTxt= txtStockInicial.getText().trim();
+        String stockMinimoTxt= txtStockMinimo.getText().trim();
+        if(codigo.isEmpty() || nombre.isEmpty() || proveedor.isEmpty() || precioTxt.isEmpty() || stockInicialTxt.isEmpty() || stockMinimoTxt.isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Todos los campos comunes son obligatorios.", "AVISO", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        double precio;
+        int stockInicial, stockMinimo;
+        try
+        {
+            precio=Double.parseDouble(precioTxt);
+            stockInicial= Integer.parseInt(stockInicialTxt);
+            stockMinimo= Integer.parseInt(stockMinimoTxt);
+            if(precio<0 || stockInicial<0 || stockMinimo<0)
+            {
+                throw new NumberFormatException();
+            }
+        }
+        catch(NumberFormatException e)
+        {
+            JOptionPane.showMessageDialog(this, "Precio, Stock Inicial y Stock deben ser mayor o igual a 0.", "Datos Inválidos", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+            String tipoSeleccionado = jComboBox1.getSelectedItem().toString();
+        Producto nuevoProducto = null;
+
+        try 
+        {
+            switch(tipoSeleccionado) 
+            {
+                case "Perecedero": 
+                    Date fechaDate = jDateChooser.getDate();
+                    if (fechaDate == null) 
+                    {
+                        JOptionPane.showMessageDialog(this, "Seleccione la fecha de vencimiento.", "AVISO", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    String fechaVencimiento= new SimpleDateFormat("yyyy-MM-dd").format(fechaDate);
+                    String temperaturaTxt= txtTemperatura.getText().trim();
+                    String diasTxt = txtDiasVigencia.getText().trim();
+                    if (temperaturaTxt.isEmpty() || diasTxt.isEmpty()) 
+                    {
+                        JOptionPane.showMessageDialog(this, "Complete todos los campos de su Producto Perecedero.", "AVISO", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    double temperatura = Double.parseDouble(temperaturaTxt);
+                    int diasVigencia = Integer.parseInt(diasTxt);
+                    if(diasVigencia<0)
+                    {
+                        JOptionPane.showMessageDialog(this, "Los días de vigencia deben ser mayores a 0", "Datos Inválidos", JOptionPane.ERROR_MESSAGE);
+                    }
+                    nuevoProducto= new ProductoPerecible(fechaVencimiento, temperatura, diasVigencia, codigo, nombre, proveedor,CategoriaProducto.PERECEDERO, precio, stockInicial, stockMinimo);
+                    break;
+                case "Electrónico": 
+                    String serie= txtNumeroSerie.getText().trim();
+                    String garantiaTxt= txtGarantia.getText().trim();
+                    String voltajeTxt= txtVoltaje.getText().trim();
+                    if (serie.isEmpty() || garantiaTxt.isEmpty() || voltajeTxt.isEmpty()) 
+                    {
+                        JOptionPane.showMessageDialog(this, "Complete todos los campos de su Producto Electrónico.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    int garantia = Integer.parseInt(garantiaTxt);
+                    int voltaje = Integer.parseInt(voltajeTxt);
+                    if(garantia<0 || voltaje<0)
+                    {
+                        JOptionPane.showMessageDialog(this, "Garantía y Voltaje deben ser mayor o igual a 0.", "Datos Inválidos", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    nuevoProducto = new ProductoElectrionico(serie, garantia, voltaje,codigo, nombre, proveedor,CategoriaProducto.ELECTRONICO, precio, stockInicial, stockMinimo);
+                    break;
+                case "Materia Prima":
+                    String unidad= txtUnidadMedida.getText().trim();
+                    String concentracionTxt= txtConcentracion.getText().trim();
+                    if (unidad.isEmpty() || concentracionTxt.isEmpty()) 
+                    {
+                        JOptionPane.showMessageDialog(this, "Complete todos los campos de su Materia Prima.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    double concentracion= Double.parseDouble(concentracionTxt);
+                    if(concentracion<0)
+                    {
+                        JOptionPane.showMessageDialog(this, "La concentración debe ser mayor o igual a 0.", "Datos Inválidos", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    nuevoProducto = new MateriaPrima(unidad, concentracion,codigo, nombre, proveedor,CategoriaProducto.MATERIA_PRIMA, precio, stockInicial, stockMinimo);
+                    break;
+                default:
+                    break;
+            }
+        } 
+        catch (NumberFormatException e) 
+        {
+            JOptionPane.showMessageDialog(this, "Verifique que los campos numéricos del tipo de producto sean válidos.", "Datos inválidos", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try 
+        {
+            AppContext.getGestorInventario().registrarProducto(nuevoProducto);
+            JOptionPane.showMessageDialog(this,"Producto registrado correctamente:\n" + nombre + " [" + codigo + "]", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            btnLimpiar.doClick();//para que se limpie de un solo
+        } 
+        catch (ProductoDuplicadoException e) 
+        {
+            JOptionPane.showMessageDialog(this,"Ya existe un producto con el código: " + codigo,"Código duplicado", JOptionPane.ERROR_MESSAGE);
+        } 
+        catch (DatosInvalidosInventarioException e) 
+        {
+            JOptionPane.showMessageDialog(this, "Datos inválidos: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new MenuInicio().setVisible(true);
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments

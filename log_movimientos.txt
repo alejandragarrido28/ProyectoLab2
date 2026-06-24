@@ -1,0 +1,5 @@
+2026-06-23 16:01:28|ENTRADA|123|15|Entrada de mercancía
+2026-06-23 16:02:15|SALIDA|123|15|compra
+2026-06-23 16:26:17|SALIDA|123|12|Entrada de mercancía
+2026-06-23 16:28:29|SALIDA|123|1|Entrada de mercancía
+2026-06-23 16:38:27|SALIDA|123|12|Entrada de mercancía

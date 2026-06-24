@@ -4,6 +4,10 @@
  */
 package Menus;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author valer
@@ -15,6 +19,9 @@ public class Salida extends javax.swing.JFrame {
      */
     public Salida() {
         initComponents();
+        LocalDateTime ahora= LocalDateTime.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        lblFechaCierre.setText(ahora.format(formato));
     }
 
     /**
@@ -28,6 +35,7 @@ public class Salida extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        lblFechaCierre = new javax.swing.JLabel();
         btnBack = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -47,8 +55,14 @@ public class Salida extends javax.swing.JFrame {
         });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 410, 520, 50));
 
+        lblFechaCierre.setBackground(new java.awt.Color(237, 237, 255));
+        lblFechaCierre.setFont(new java.awt.Font("Calibri", 0, 16)); // NOI18N
+        lblFechaCierre.setForeground(new java.awt.Color(237, 237, 255));
+        lblFechaCierre.setText("jLabel5");
+        jPanel1.add(lblFechaCierre, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 490, 160, 40));
+
         btnBack.setBackground(new java.awt.Color(237, 237, 255));
-        btnBack.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnBack.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         btnBack.setForeground(new java.awt.Color(0, 0, 51));
         btnBack.setText("Atrás");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -56,9 +70,9 @@ public class Salida extends javax.swing.JFrame {
                 btnBackActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, -1, -1));
+        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 60, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/FondoSalida2.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondoSalida3.png"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 560));
@@ -68,8 +82,18 @@ public class Salida extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        System.out.println("Ya sale del programa");
-        System.exit(0);
+        String resp= JOptionPane.showInputDialog(this, "¿Está seguro que quiere salir? (s/n)");
+        if(resp.equalsIgnoreCase("s") || resp.equalsIgnoreCase("si") || resp.equalsIgnoreCase("y"))
+        {
+            JOptionPane.showMessageDialog(this, "Esta saliendo...");
+            System.exit(0);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Regresando al Menú Principal...");
+            btnBack.doClick();
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -119,5 +143,6 @@ public class Salida extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblFechaCierre;
     // End of variables declaration//GEN-END:variables
 }

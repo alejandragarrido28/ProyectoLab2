@@ -180,7 +180,7 @@
         <Component class="javax.swing.JLabel" name="lblFondoInicio">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/imagenes/FondoPrincipal2.png"/>
+              <Image iconType="3" name="/imagenes/fondoPrincipal3.png"/>
             </Property>
           </Properties>
           <Constraints>

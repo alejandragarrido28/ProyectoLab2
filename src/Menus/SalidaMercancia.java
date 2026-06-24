@@ -4,19 +4,65 @@
  */
 package Menus;
 
+import java.awt.Color;
+import clases.Producto;
+import excepciones.ErrorEscrituraException;
+import excepciones.StockInsuficienteException;
+import modelo.GestorInventario;
+import javax.swing.JOptionPane;
 /**
  *
  * @author valer
  */
 public class SalidaMercancia extends javax.swing.JFrame {
 
+    private Producto productoEncontrado=null;
     /**
      * Creates new form MenuInicio
      */
     public SalidaMercancia() {
         initComponents();
+        btnSalida.setEnabled(false);
+        txtCant.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt){
+                actualizarStockEstimadoSalida();
+            }
+        });
     }
 
+    public void actualizarStockEstimadoSalida()
+    {
+        if(productoEncontrado==null)
+        {
+            return;
+        }
+        try
+        {
+            int cant= Integer.parseInt(txtCant.getText().trim());
+            int stockEstimado= productoEncontrado.getStockActual()-cant;
+            txtStockEstimado.setText(String.valueOf(stockEstimado));
+            if(stockEstimado<0)
+            {
+                txtStockEstimado.setForeground(Color.RED);
+                btnSalida.setEnabled(false);
+            }
+            else
+            {
+//                txtStockEstimado.setForeground(new Color(237,237,255));
+                txtStockEstimado.setForeground(new Color(0,0,51));
+                btnSalida.setEnabled(true);
+            }
+        }
+        catch(NumberFormatException e)
+        {
+            txtStockEstimado.setText("");
+            if(productoEncontrado!=null)
+            {
+                btnSalida.setEnabled(true);
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,7 +91,7 @@ public class SalidaMercancia extends javax.swing.JFrame {
         lblTituloMotivo = new javax.swing.JLabel();
         lblTituloCant = new javax.swing.JLabel();
         txtCant = new javax.swing.JTextField();
-        txtStockDespues = new javax.swing.JTextField();
+        txtStockEstimado = new javax.swing.JTextField();
         lblTituloStockDespues = new javax.swing.JLabel();
         lblFondoInicio = new javax.swing.JLabel();
 
@@ -66,7 +112,7 @@ public class SalidaMercancia extends javax.swing.JFrame {
         jPanel1.add(btnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 520, 50));
 
         btnBack.setBackground(new java.awt.Color(237, 237, 255));
-        btnBack.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnBack.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         btnBack.setForeground(new java.awt.Color(0, 0, 51));
         btnBack.setText("Atrás");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -74,7 +120,7 @@ public class SalidaMercancia extends javax.swing.JFrame {
                 btnBackActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, -1, -1));
+        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 60, -1));
 
         lblTituloCodigo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTituloCodigo.setForeground(new java.awt.Color(0, 0, 51));
@@ -218,23 +264,23 @@ public class SalidaMercancia extends javax.swing.JFrame {
         });
         jPanel1.add(txtCant, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 280, 30));
 
-        txtStockDespues.setEditable(false);
-        txtStockDespues.setBackground(new java.awt.Color(237, 237, 255));
-        txtStockDespues.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtStockDespues.setForeground(new java.awt.Color(0, 0, 51));
-        txtStockDespues.addActionListener(new java.awt.event.ActionListener() {
+        txtStockEstimado.setEditable(false);
+        txtStockEstimado.setBackground(new java.awt.Color(237, 237, 255));
+        txtStockEstimado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtStockEstimado.setForeground(new java.awt.Color(0, 0, 51));
+        txtStockEstimado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStockDespuesActionPerformed(evt);
+                txtStockEstimadoActionPerformed(evt);
             }
         });
-        jPanel1.add(txtStockDespues, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 280, -1));
+        jPanel1.add(txtStockEstimado, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 280, -1));
 
         lblTituloStockDespues.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTituloStockDespues.setForeground(new java.awt.Color(0, 0, 51));
         lblTituloStockDespues.setText("Stock Estimado");
         jPanel1.add(lblTituloStockDespues, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 270, -1, -1));
 
-        lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/FondoPrincipal2.png"))); // NOI18N
+        lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondoPrincipal3.png"))); // NOI18N
         jPanel1.add(lblFondoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, -1));
@@ -264,7 +310,11 @@ public class SalidaMercancia extends javax.swing.JFrame {
         txtCategoria.setText("");
         txtCant.setText("");
         txtMotivo.setText("");
-        txtStockDespues.setText("");
+        txtStockEstimado.setForeground(new Color(0,0,51));
+        txtStockEstimado.setText("");
+        jComboBox1.setSelectedIndex(0);
+        productoEncontrado=null;
+        btnSalida.setEnabled(false);
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
@@ -278,6 +328,62 @@ public class SalidaMercancia extends javax.swing.JFrame {
         -salida registrada correctamente
         -stock insuficiente
         */
+        if(productoEncontrado==null)
+        {
+            JOptionPane.showMessageDialog(this, "Primero busque un producto.", "AVISO", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        String cantTexto= txtCant.getText().trim();
+        if(cantTexto.isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Ingrese la cantidad a ingresar.", "AVISO", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        int cant;
+        try
+        {
+            cant=Integer.parseInt(cantTexto);
+            if(cant<=0)
+            {
+                throw new NumberFormatException();
+            }
+        }
+        catch(NumberFormatException e)
+        {
+            JOptionPane.showMessageDialog(this, "La cantidad debe ser un número entero positivo.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if(!AppContext.getGestorInventario().validarSalida(productoEncontrado, cant))
+        {
+            JOptionPane.showMessageDialog(this, "Stock insuficiente. Stock Actual: "+productoEncontrado.getStockActual(), "STOCK INSUFICIENTE", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        String detalle= txtMotivo.getText().trim();
+        if(detalle.isEmpty())
+        {
+            detalle= "Entrada de mercancía";
+        }    
+        try
+        {
+            GestorInventario gestor = AppContext.getGestorInventario();
+            gestor.registrarSalida(productoEncontrado.getCodigo(), cant, detalle);
+            txtStockActual.setText(String.valueOf(productoEncontrado.getStockActual()));
+            txtStockEstimado.setText("");
+            txtStockEstimado.setBackground(new Color(237,237,255));
+            JOptionPane.showMessageDialog(this, "Entrada registrada correctamente. \nNuevo Stock: "+productoEncontrado.getStockActual(), "Éxito Entrada Mercancía", JOptionPane.INFORMATION_MESSAGE);
+            btnLimpiar.doClick();
+        }
+        catch (StockInsuficienteException e)
+        {
+            JOptionPane.showMessageDialog(this, "Stock insuficiente: "+e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        catch(ErrorEscrituraException e)
+        {
+            JOptionPane.showMessageDialog(this, "Error al guardar el movimiento: "+e.getMessage(), "ERROR", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnSalidaActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -286,9 +392,32 @@ public class SalidaMercancia extends javax.swing.JFrame {
         posibles joptionpane:
         producto no encontrado
         */
-        txtNombre.setText("nombre");
-        txtStockActual.setText("Stock actual");
-        txtCategoria.setText("categoria");
+        String codigo= txtCodigoProducto.getText().trim();
+        if(codigo.isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Ingrese el código de un producto.");
+            return;
+        }
+        
+        GestorInventario gestorInventario= AppContext.getGestorInventario();
+        productoEncontrado= gestorInventario.buscarPorCodigo(codigo);
+        if(productoEncontrado==null)
+        {
+            JOptionPane.showMessageDialog(this, "Producto no encontrado: "+codigo, "ERROR", JOptionPane.ERROR_MESSAGE);
+            txtNombre.setText("");
+            txtCategoria.setText("");
+            txtStockActual.setText("");
+            txtStockEstimado.setText("");
+            btnSalida.setEnabled(false);//no estoy segura de dajarlo revisar luego
+            return;
+        }
+        txtNombre.setText(productoEncontrado.getNombre());
+        txtCategoria.setText(productoEncontrado.getCategoria().name());
+        txtStockActual.setText(String.valueOf(productoEncontrado.getStockActual()));
+        txtCant.setText("");
+        txtStockEstimado.setText("");
+        txtStockEstimado.setForeground(new Color(0,0,51));
+        btnSalida.setEnabled(true);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoriaActionPerformed
@@ -305,16 +434,61 @@ public class SalidaMercancia extends javax.swing.JFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-
+        String tipo= jComboBox1.getSelectedItem().toString();
+       if(tipo.equals("Otros"))
+       {
+           txtMotivo.setEditable(true);
+           txtMotivo.setBackground(new Color(255,255,255));
+       }
+       else
+       {
+            txtMotivo.setEditable(false);
+            txtMotivo.setBackground(new Color(237,237,255));
+       }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void txtCantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantActionPerformed
         // TODO add your handling code here:
+        if(productoEncontrado==null)
+        {
+            return;
+        }
+        try
+        {
+            int cant= Integer.parseInt(txtCant.getText().trim());
+            if(cant<0)
+            {
+                txtStockEstimado.setText("Cantidad Inválida");
+                txtStockEstimado.setForeground(Color.RED);
+                btnSalida.setEnabled(false);
+                return;
+            }
+            int stockEstimado= productoEncontrado.getStockActual()-cant;
+            txtStockEstimado.setText(String.valueOf(stockEstimado));
+            if(stockEstimado<0)
+            {
+                txtStockEstimado.setForeground(Color.RED);
+                btnSalida.setEnabled(false);
+            }
+            else
+            {
+                txtStockEstimado.setForeground(new Color(0,0,51));
+                btnSalida.setEnabled(true);
+            }
+        }
+        catch(NumberFormatException e)
+        {
+            txtStockEstimado.setText("");
+            if(productoEncontrado!=null)
+            {
+                btnSalida.setEnabled(true);
+            }
+        }
     }//GEN-LAST:event_txtCantActionPerformed
 
-    private void txtStockDespuesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockDespuesActionPerformed
+    private void txtStockEstimadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockEstimadoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtStockDespuesActionPerformed
+    }//GEN-LAST:event_txtStockEstimadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -380,6 +554,6 @@ public class SalidaMercancia extends javax.swing.JFrame {
     private javax.swing.JTextField txtMotivo;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtStockActual;
-    private javax.swing.JTextField txtStockDespues;
+    private javax.swing.JTextField txtStockEstimado;
     // End of variables declaration//GEN-END:variables
 }
