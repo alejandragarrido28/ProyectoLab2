@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Menus;
-
+import clases.Producto;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import modelo.GestorInventario;
 /**
  *
  * @author valer
@@ -15,8 +18,27 @@ public class ValorTotalAlmacen extends javax.swing.JFrame {
      */
     public ValorTotalAlmacen() {
         initComponents();
+        cargarResumen();
     }
 
+    private void cargarResumen()
+    {
+        GestorInventario gestorInventario = AppContext.getGestorInventario();
+        List<Producto> productos= gestorInventario.obtenerProductos();
+        double valorTotal= gestorInventario.calcularValorTotalAlmacen();
+        int totalProductos= productos.size();
+        int totalUnidades=0;
+        DefaultTableModel modelo= (DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0);
+        for (Producto producto : productos) 
+        {
+            totalUnidades+=producto.getStockActual();
+            modelo.addRow(new Object[] {producto.getCodigo(), producto.getNombre(), producto.getStockActual(), String.format("%.2f", producto.calcularValorStock())});
+        }
+        txtValorTotal.setText(String.format("%.2f", valorTotal));
+        txtTotalProductos.setText(String.valueOf(totalProductos));
+        txtTotalUnidades.setText(String.valueOf(totalUnidades));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,6 +61,7 @@ public class ValorTotalAlmacen extends javax.swing.JFrame {
         lblTituloResumen = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        btnBack1 = new javax.swing.JToggleButton();
         lblFondoInicio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -152,7 +175,18 @@ public class ValorTotalAlmacen extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 880, 170));
 
-        lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/FondoPrincipal2.png"))); // NOI18N
+        btnBack1.setBackground(new java.awt.Color(237, 237, 255));
+        btnBack1.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        btnBack1.setForeground(new java.awt.Color(0, 0, 51));
+        btnBack1.setText("Atrás");
+        btnBack1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBack1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBack1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 60, -1));
+
+        lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondoPrincipal3.png"))); // NOI18N
         jPanel1.add(lblFondoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, -1));
@@ -177,6 +211,7 @@ public class ValorTotalAlmacen extends javax.swing.JFrame {
         -salida registrada correctamente
         -stock insuficiente
         */
+        cargarResumen();
     }//GEN-LAST:event_btnRecalcularActionPerformed
 
     private void txtValorTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorTotalActionPerformed
@@ -190,6 +225,12 @@ public class ValorTotalAlmacen extends javax.swing.JFrame {
     private void txtTotalUnidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalUnidadesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTotalUnidadesActionPerformed
+
+    private void btnBack1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new MenuInicio().setVisible(true);
+    }//GEN-LAST:event_btnBack1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -235,6 +276,7 @@ public class ValorTotalAlmacen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnBack;
+    private javax.swing.JToggleButton btnBack1;
     private javax.swing.JToggleButton btnRecalcular;
     private javax.swing.JButton btnRegistro;
     private javax.swing.JPanel jPanel1;

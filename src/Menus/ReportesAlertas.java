@@ -5,7 +5,12 @@
 package Menus;
 
 import java.awt.Color;
-
+import clases.Producto;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author valer
@@ -17,8 +22,35 @@ public class ReportesAlertas extends javax.swing.JFrame {
      */
     public ReportesAlertas() {
         initComponents();
+        cargarAlertas();
     }
 
+    
+    public void cargarAlertas()
+    {
+        DefaultTableModel modelo= (DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0);
+        List<Producto> productos= AppContext.getGestorInventario().obtenerProductos();
+        String fechaActual = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        int totalAlertas = 0;
+        for (Producto producto : productos) 
+        {
+            String alerta = producto.generarAlerta();
+            if (alerta != null && !alerta.isBlank()) 
+            {
+                // Determinar el nivel según el prefijo de la alerta
+                String tipo = "ALERTA";
+                if (alerta.startsWith("CRITICO")) tipo = "CRÍTICO";
+                else if (alerta.startsWith("URGENTE")) tipo = "URGENTE";
+                else if (alerta.startsWith("AVISO")) tipo = "AVISO";
+
+                modelo.addRow(new Object[]{fechaActual,tipo,producto.getCodigo(),producto.getNombre(), producto.tieneStockCritico() ? "Stock Crítico" : "Activo",alerta});
+                totalAlertas++;
+            }
+        }
+        txtTotalAlertasActivas.setText(String.valueOf(totalAlertas));
+    }
     /*
     preguntar si aqui ocupan exportar alertas tipo como archivo
     */
@@ -33,12 +65,12 @@ public class ReportesAlertas extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnRegistro = new javax.swing.JButton();
-        btnBack = new javax.swing.JToggleButton();
         lblTituloTotalAlertasActivas = new javax.swing.JLabel();
         txtTotalAlertasActivas = new javax.swing.JTextField();
         btnActualizar = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        btnBack1 = new javax.swing.JToggleButton();
         lblFondoInicio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -56,17 +88,6 @@ public class ReportesAlertas extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 520, 50));
-
-        btnBack.setBackground(new java.awt.Color(237, 237, 255));
-        btnBack.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnBack.setForeground(new java.awt.Color(0, 0, 51));
-        btnBack.setText("Atrás");
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBackActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, -1, -1));
 
         lblTituloTotalAlertasActivas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTituloTotalAlertasActivas.setForeground(new java.awt.Color(0, 0, 51));
@@ -118,7 +139,18 @@ public class ReportesAlertas extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, 830, 240));
 
-        lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/FondoPrincipal2.png"))); // NOI18N
+        btnBack1.setBackground(new java.awt.Color(237, 237, 255));
+        btnBack1.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        btnBack1.setForeground(new java.awt.Color(0, 0, 51));
+        btnBack1.setText("Atrás");
+        btnBack1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBack1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBack1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 60, -1));
+
+        lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondoPrincipal3.png"))); // NOI18N
         jPanel1.add(lblFondoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, -1));
@@ -130,12 +162,6 @@ public class ReportesAlertas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegistroActionPerformed
 
-    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-        new MenuInicio().setVisible(true);
-    }//GEN-LAST:event_btnBackActionPerformed
-
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
         /*
@@ -143,11 +169,23 @@ public class ReportesAlertas extends javax.swing.JFrame {
         -salida registrada correctamente
         -stock insuficiente
         */
+        cargarAlertas();
+        DefaultTableModel modelo= (DefaultTableModel) jTable1.getModel();
+        if(modelo.getRowCount()==0)
+        {
+            JOptionPane.showMessageDialog(this, "NO HAY ALERTAS ACTIVAS EN ESTE MOMENTO.", "SIN ALERTAS", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void txtTotalAlertasActivasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalAlertasActivasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTotalAlertasActivasActionPerformed
+
+    private void btnBack1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new MenuInicio().setVisible(true);
+    }//GEN-LAST:event_btnBack1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -201,7 +239,7 @@ public class ReportesAlertas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnActualizar;
-    private javax.swing.JToggleButton btnBack;
+    private javax.swing.JToggleButton btnBack1;
     private javax.swing.JButton btnRegistro;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

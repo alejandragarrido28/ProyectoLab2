@@ -602,6 +602,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
                     if(diasVigencia<0)
                     {
                         JOptionPane.showMessageDialog(this, "Los días de vigencia deben ser mayores a 0", "Datos Inválidos", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
                     nuevoProducto= new ProductoPerecible(fechaVencimiento, temperatura, diasVigencia, codigo, nombre, proveedor,CategoriaProducto.PERECEDERO, precio, stockInicial, stockMinimo);
                     break;

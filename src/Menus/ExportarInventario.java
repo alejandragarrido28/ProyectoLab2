@@ -35,13 +35,13 @@ public class ExportarInventario extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnRegistro = new javax.swing.JButton();
-        btnBack = new javax.swing.JToggleButton();
         lblTituloStockAntes = new javax.swing.JLabel();
         txtStockAntes = new javax.swing.JTextField();
         btnExportar = new javax.swing.JToggleButton();
         btnSeleccionCarpeta1 = new javax.swing.JToggleButton();
         lblTituloCarpetaSeleccionada = new javax.swing.JLabel();
         txtCarpetaSeleccionada = new javax.swing.JTextField();
+        btnBack1 = new javax.swing.JToggleButton();
         lblFondoInicio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -59,17 +59,6 @@ public class ExportarInventario extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 520, 50));
-
-        btnBack.setBackground(new java.awt.Color(237, 237, 255));
-        btnBack.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnBack.setForeground(new java.awt.Color(0, 0, 51));
-        btnBack.setText("Atrás");
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBackActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, -1, -1));
 
         lblTituloStockAntes.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTituloStockAntes.setForeground(new java.awt.Color(0, 0, 51));
@@ -126,7 +115,18 @@ public class ExportarInventario extends javax.swing.JFrame {
         });
         jPanel1.add(txtCarpetaSeleccionada, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 330, 240, 30));
 
-        lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/FondoPrincipal2.png"))); // NOI18N
+        btnBack1.setBackground(new java.awt.Color(237, 237, 255));
+        btnBack1.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        btnBack1.setForeground(new java.awt.Color(0, 0, 51));
+        btnBack1.setText("Atrás");
+        btnBack1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBack1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBack1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 60, -1));
+
+        lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondoPrincipal3.png"))); // NOI18N
         jPanel1.add(lblFondoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, -1));
@@ -137,12 +137,6 @@ public class ExportarInventario extends javax.swing.JFrame {
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegistroActionPerformed
-
-    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-        new MenuInicio().setVisible(true);
-    }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
         // TODO add your handling code here:
@@ -187,6 +181,12 @@ public class ExportarInventario extends javax.swing.JFrame {
         
     }//GEN-LAST:event_txtCarpetaSeleccionadaActionPerformed
 
+    private void btnBack1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new MenuInicio().setVisible(true);
+    }//GEN-LAST:event_btnBack1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -230,7 +230,7 @@ public class ExportarInventario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btnBack;
+    private javax.swing.JToggleButton btnBack1;
     private javax.swing.JToggleButton btnExportar;
     private javax.swing.JButton btnRegistro;
     private javax.swing.JToggleButton btnSeleccionCarpeta1;

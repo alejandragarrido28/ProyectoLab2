@@ -3,7 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Menus;
-
+import excepciones.ArchivoNoEncontradoException;
+import excepciones.ErrorEscrituraException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.MovimientoInventario;
+import persistencia.GestorPersistencia;
 /**
  *
  * @author valer
@@ -15,8 +22,37 @@ public class HistorialMovimientos extends javax.swing.JFrame {
      */
     public HistorialMovimientos() {
         initComponents();
+        List<MovimientoInventario> todos= leerTodosMovimientos();
+        cargarMovimientos(todos);
     }
 
+    public void cargarMovimientos(List<MovimientoInventario> movimientos)
+    {
+        DefaultTableModel modelo= (DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0);
+        for (MovimientoInventario movimiento : movimientos) {
+            modelo.addRow(new Object[]{movimiento.getFecha().toString().replace("T", " "), movimiento.getTipo(), movimiento.getCodigoProducto(), movimiento.getCantidad()});
+        }
+    }
+    
+    private List<MovimientoInventario> leerTodosMovimientos()
+    {
+        try
+        {
+            GestorPersistencia persistencia= new GestorPersistencia();
+            return persistencia.leerLogMovimientos();
+        }
+        catch (ArchivoNoEncontradoException e)
+        {
+            JOptionPane.showMessageDialog(this, "No se encontró el archivo de movminetos", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+            return new java.util.ArrayList<>();
+        }
+        catch (ErrorEscrituraException e)
+        {
+            JOptionPane.showMessageDialog(this, "Error al leer el historial: "+e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            return new java.util.ArrayList<>();
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,9 +70,10 @@ public class HistorialMovimientos extends javax.swing.JFrame {
         Refresh = new javax.swing.JToggleButton();
         lblTituloFiltro = new javax.swing.JLabel();
         lblTotalProductos = new javax.swing.JLabel();
-        txtTotalProductos = new javax.swing.JTextField();
+        txtCodigo = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        btnBack1 = new javax.swing.JToggleButton();
         lblFondoInicio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -58,7 +95,7 @@ public class HistorialMovimientos extends javax.swing.JFrame {
         jComboBox1.setBackground(new java.awt.Color(237, 237, 255));
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jComboBox1.setForeground(new java.awt.Color(0, 0, 51));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Entrada", "Salida", "Alertas", "Guardado" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Entrada", "Salida", "Alertas" }));
         jComboBox1.setOpaque(true);
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,17 +147,17 @@ public class HistorialMovimientos extends javax.swing.JFrame {
         lblTotalProductos.setText("Buscar Código Producto");
         jPanel1.add(lblTotalProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 180, -1, -1));
 
-        txtTotalProductos.setBackground(new java.awt.Color(255, 255, 255));
-        txtTotalProductos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtTotalProductos.setForeground(new java.awt.Color(0, 0, 51));
-        txtTotalProductos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(154, 154, 154)));
-        txtTotalProductos.setCaretColor(new java.awt.Color(154, 154, 154));
-        txtTotalProductos.addActionListener(new java.awt.event.ActionListener() {
+        txtCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        txtCodigo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCodigo.setForeground(new java.awt.Color(0, 0, 51));
+        txtCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(154, 154, 154)));
+        txtCodigo.setCaretColor(new java.awt.Color(154, 154, 154));
+        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTotalProductosActionPerformed(evt);
+                txtCodigoActionPerformed(evt);
             }
         });
-        jPanel1.add(txtTotalProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 210, 280, 30));
+        jPanel1.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 210, 280, 30));
 
         jTable1.setBackground(new java.awt.Color(255, 255, 234));
         jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -145,7 +182,18 @@ public class HistorialMovimientos extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 880, 220));
 
-        lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/FondoPrincipal2.png"))); // NOI18N
+        btnBack1.setBackground(new java.awt.Color(237, 237, 255));
+        btnBack1.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        btnBack1.setForeground(new java.awt.Color(0, 0, 51));
+        btnBack1.setText("Atrás");
+        btnBack1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBack1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBack1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 60, -1));
+
+        lblFondoInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondoPrincipal3.png"))); // NOI18N
         jPanel1.add(lblFondoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, -1));
@@ -170,20 +218,76 @@ public class HistorialMovimientos extends javax.swing.JFrame {
         -salida registrada correctamente
         -stock insuficiente
         */
+        String filtroActual=jComboBox1.getSelectedItem().toString();
+        List<MovimientoInventario> todos= leerTodosMovimientos();
+        if(filtroActual.equals("Todos"))
+        {
+            cargarMovimientos(todos);
+        }
+        List<MovimientoInventario> filtrados= new ArrayList<>();
+        for (MovimientoInventario movimiento : todos) 
+        {
+            if(movimiento.getTipo().equalsIgnoreCase(filtroActual))
+            {
+                filtrados.add(movimiento);
+            }
+        }
+        cargarMovimientos(filtrados);
     }//GEN-LAST:event_RefreshActionPerformed
 
-    private void txtTotalProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalProductosActionPerformed
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTotalProductosActionPerformed
+    }//GEN-LAST:event_txtCodigoActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        
+        String filtro= jComboBox1.getSelectedItem().toString();
+        List<MovimientoInventario> todos= leerTodosMovimientos();
+        if(filtro.equals("Todos"))
+        {
+            cargarMovimientos(todos);
+            return;
+        }
+        List<MovimientoInventario> filtrados= new ArrayList<>();
+        for (MovimientoInventario movimiento : todos) 
+        {
+            if(movimiento.getTipo().equalsIgnoreCase(filtro))
+            {
+                filtrados.add(movimiento);
+            }
+        }
+        cargarMovimientos(filtrados);
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
+        String codigo= txtCodigo.getText().trim();
+        if(codigo.isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Ingrese un codigo", "AVISO", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        List<MovimientoInventario> todos= leerTodosMovimientos();
+        List<MovimientoInventario> resultados= new ArrayList<>();
+        for (MovimientoInventario movimiento : todos) 
+        {
+            if(movimiento.getCodigoProducto().equalsIgnoreCase(codigo))
+            {
+                resultados.add(movimiento);
+            }
+        }
+        if(resultados.isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "No se encontraron movimientos para código: "+codigo, "SIN RESULTADOS", JOptionPane.INFORMATION_MESSAGE);
+        }
+        cargarMovimientos(resultados);
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnBack1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new MenuInicio().setVisible(true);
+    }//GEN-LAST:event_btnBack1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,6 +342,7 @@ public class HistorialMovimientos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton Refresh;
     private javax.swing.JToggleButton btnBack;
+    private javax.swing.JToggleButton btnBack1;
     private javax.swing.JToggleButton btnBuscar;
     private javax.swing.JButton btnRegistro;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -247,6 +352,6 @@ public class HistorialMovimientos extends javax.swing.JFrame {
     private javax.swing.JLabel lblFondoInicio;
     private javax.swing.JLabel lblTituloFiltro;
     private javax.swing.JLabel lblTotalProductos;
-    private javax.swing.JTextField txtTotalProductos;
+    private javax.swing.JTextField txtCodigo;
     // End of variables declaration//GEN-END:variables
 }
