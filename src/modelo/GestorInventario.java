@@ -88,6 +88,7 @@ public class GestorInventario {
         movimientos.add(movimiento);
         if (persistencia != null) {
             persistencia.registrarMovimiento(movimiento);
+            persistencia.guardarInventarioCompleto(productos);
         }
     }
 

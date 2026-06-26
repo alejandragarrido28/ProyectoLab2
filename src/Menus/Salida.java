@@ -83,8 +83,23 @@ public class Salida extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String resp= JOptionPane.showInputDialog(this, "¿Está seguro que quiere salir? (s/n)");
+        if(resp==null)
+        {
+            JOptionPane.showMessageDialog(this, "Regresando al Menú Principal...");
+            btnBack.doClick();
+            return;
+        }
         if(resp.equalsIgnoreCase("s") || resp.equalsIgnoreCase("si") || resp.equalsIgnoreCase("y"))
         {
+            try
+            {
+                AppContext.getGestorInventario().guardarInventarioCompleto();
+            }
+            catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(this, "No se pudo guardar el inventario antes de salir: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             JOptionPane.showMessageDialog(this, "Esta saliendo...");
             System.exit(0);
         }

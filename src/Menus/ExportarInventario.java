@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import persistencia.ExportadorCSV;
 
 /**
  *
@@ -145,7 +146,16 @@ public class ExportarInventario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Primero selecciona una carpeta.");
             return;
         }
-        File archivoOrigen= new File("test_run/inventario_completo.csv");
+        try
+        {
+            AppContext.getGestorInventario().guardarInventarioCompleto();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(this, "No se pudo actualizar el CSV antes de exportar: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        File archivoOrigen= new File(ExportadorCSV.ARCHIVO);
         File archivoDestino= new File(carpetaSeleccionada, archivoOrigen.getName());
         try
         {
@@ -154,7 +164,7 @@ public class ExportarInventario extends javax.swing.JFrame {
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "No se pudo exportar el CSV: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnExportarActionPerformed
 

@@ -652,7 +652,9 @@ public class RegistrarProducto extends javax.swing.JFrame {
 
         try 
         {
-            AppContext.getGestorInventario().registrarProducto(nuevoProducto);
+            GestorInventario gestor = AppContext.getGestorInventario();
+            gestor.registrarProducto(nuevoProducto);
+            gestor.guardarInventarioCompleto();
             JOptionPane.showMessageDialog(this,"Producto registrado correctamente:\n" + nombre + " [" + codigo + "]", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             btnLimpiar.doClick();//para que se limpie de un solo
         } 
@@ -663,6 +665,10 @@ public class RegistrarProducto extends javax.swing.JFrame {
         catch (DatosInvalidosInventarioException e) 
         {
             JOptionPane.showMessageDialog(this, "Datos inválidos: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        catch (ErrorEscrituraException e)
+        {
+            JOptionPane.showMessageDialog(this, "El producto se agregó, pero no se pudo guardar en disco: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
