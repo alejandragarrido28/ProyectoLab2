@@ -7,7 +7,6 @@ import clases.Producto;
 import excepciones.ErrorEscrituraException;
 import java.awt.Color;
 import modelo.GestorInventario;
-import modelo.MovimientoInventario;
 import javax.swing.JOptionPane;
 /**
  *
@@ -20,12 +19,14 @@ public class EntradaMercancia extends javax.swing.JFrame {
      */
     public EntradaMercancia() {
         initComponents();
+        btnRegistrar.setEnabled(false);
         txtCant.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
             public void keyReleased(java.awt.event.KeyEvent evt){
                 actualizarStockEstimadoEntrada();
             }
         });
+        UiUtils.instalarSoloEnteros(txtCant);
     }
 
     public void actualizarStockEstimadoEntrada()
@@ -276,6 +277,7 @@ public class EntradaMercancia extends javax.swing.JFrame {
 
     private void txtCodigoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoProductoActionPerformed
         // TODO add your handling code here:
+        btnBuscar.doClick();
     }//GEN-LAST:event_txtCodigoProductoActionPerformed
 
     private void txtStockEstimadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockEstimadoActionPerformed
@@ -292,6 +294,8 @@ public class EntradaMercancia extends javax.swing.JFrame {
         txtMotivo.setText("");
         txtStockEstimado.setText("");
         jComboBox1.setSelectedIndex(0);
+        productoEncontrado=null;
+        btnRegistrar.setEnabled(false);
       
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
@@ -313,10 +317,20 @@ public class EntradaMercancia extends javax.swing.JFrame {
         String codigo= txtCodigoProducto.getText().trim();
         if(codigo.isEmpty())
         {
-            JOptionPane.showMessageDialog(this, "Ingrese el código de un producto.");
-            return;
+            Producto seleccionado = UiUtils.seleccionarProducto(this);
+            if(seleccionado == null)
+            {
+                JOptionPane.showMessageDialog(this, "Ingrese o seleccione el código de un producto.");
+                return;
+            }
+            txtCodigoProducto.setText(seleccionado.getCodigo());
+            codigo = seleccionado.getCodigo();
         }
-        
+        buscarProductoPorCodigo(codigo);
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void buscarProductoPorCodigo(String codigo)
+    {
         GestorInventario gestorInventario= AppContext.getGestorInventario();
         productoEncontrado= gestorInventario.buscarPorCodigo(codigo);
         if(productoEncontrado==null)
@@ -333,7 +347,8 @@ public class EntradaMercancia extends javax.swing.JFrame {
         txtStockActual.setText(String.valueOf(productoEncontrado.getStockActual()));
         txtCant.setText("");
         txtStockEstimado.setText("");
-    }//GEN-LAST:event_btnBuscarActionPerformed
+        btnRegistrar.setEnabled(true);
+    }
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
@@ -367,11 +382,7 @@ public class EntradaMercancia extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "La cantidad debe ser un número entero positivo.", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        String detalle= txtMotivo.getText().trim();
-        if(detalle.isEmpty())
-        {
-            detalle= "Entrada de mercancía";
-        }    
+        String detalle= UiUtils.obtenerDetalleMovimiento(jComboBox1, txtMotivo, "Entrada de mercancía");
         try
         {
             GestorInventario gestor = AppContext.getGestorInventario();
@@ -417,17 +428,7 @@ public class EntradaMercancia extends javax.swing.JFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-       String tipo= jComboBox1.getSelectedItem().toString();
-       if(tipo.equals("Otros"))
-       {
-           txtMotivo.setEditable(true);
-           txtMotivo.setBackground(new Color(255,255,255));
-       }
-       else
-       {
-            txtMotivo.setEditable(false);
-            txtMotivo.setBackground(new Color(237,237,255));
-       }
+       UiUtils.configurarCampoDetalle(jComboBox1, txtMotivo);
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed

@@ -50,7 +50,6 @@ public class ValorTotalAlmacen extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnRegistro = new javax.swing.JButton();
-        btnBack = new javax.swing.JToggleButton();
         btnRecalcular = new javax.swing.JToggleButton();
         lblTituloValorTotal = new javax.swing.JLabel();
         txtValorTotal = new javax.swing.JTextField();
@@ -80,21 +79,10 @@ public class ValorTotalAlmacen extends javax.swing.JFrame {
         });
         jPanel1.add(btnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 520, 50));
 
-        btnBack.setBackground(new java.awt.Color(237, 237, 255));
-        btnBack.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnBack.setForeground(new java.awt.Color(0, 0, 51));
-        btnBack.setText("Atrás");
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBackActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, -1, -1));
-
         btnRecalcular.setBackground(new java.awt.Color(237, 237, 255));
         btnRecalcular.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRecalcular.setForeground(new java.awt.Color(0, 0, 51));
-        btnRecalcular.setText("Refresh");
+        btnRecalcular.setText("Refrescar");
         btnRecalcular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRecalcularActionPerformed(evt);
@@ -198,12 +186,6 @@ public class ValorTotalAlmacen extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegistroActionPerformed
 
-    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-        new MenuInicio().setVisible(true);
-    }//GEN-LAST:event_btnBackActionPerformed
-
     private void btnRecalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecalcularActionPerformed
         // TODO add your handling code here:
         /*
@@ -275,7 +257,6 @@ public class ValorTotalAlmacen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btnBack;
     private javax.swing.JToggleButton btnBack1;
     private javax.swing.JToggleButton btnRecalcular;
     private javax.swing.JButton btnRegistro;

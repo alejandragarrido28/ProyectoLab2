@@ -1,0 +1,7 @@
+2026-06-26 21:10:54|SALIDA|1234|45|Venta|Usuario
+2026-06-26 21:23:53|ENTRADA|1234|123|Traslado Sucursal|Usuario
+2026-06-26 21:50:48|ENTRADA|7|20|Producto Nuevo|Usuario
+2026-06-26 21:51:16|ENTRADA|7|4|Devolución|Usuario
+2026-06-26 22:13:47|SALIDA|7|58|Venta|Usuario
+2026-06-26 22:13:47|ALERTA|SISTEMA|0|CRITICO: Sin existencias - Lort [7] Serie: 56456|SISTEMA
+2026-06-26 22:15:18|ENTRADA|7|100|Producto Nuevo|Usuario

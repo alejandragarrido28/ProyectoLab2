@@ -29,7 +29,7 @@ public class ProductoPerecible extends Producto {
     @Override
     public double calcularValorStock() {
         double precioUnitario = super.getPrecioUnitario();
-        if (diasVigencia < UMBRAL_DIAS_VIGENCIA || tieneStockCritico()) {
+        if (diasVigencia < UMBRAL_DIAS_VIGENCIA) {
             precioUnitario = aplicarDescuentoRecursivo(diasVigencia, precioUnitario);
         }
         return precioUnitario * super.getStockActual();

@@ -23,6 +23,8 @@ import persistencia.GestorPersistencia;
 public class GestorInventario {
 
     private static final DateTimeFormatter FORMATO_ALERTA = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final int MAX_PRODUCTOS = 200;
+    private static final int MAX_MOVIMIENTOS = 1000;
 
     private final List<Producto> productos;
     private final List<MovimientoInventario> movimientos;
@@ -54,6 +56,9 @@ public class GestorInventario {
 
     public void registrarProducto(Producto producto) {
         validarProducto(producto);
+        if (productos.size() >= MAX_PRODUCTOS) {
+            throw new DatosInvalidosInventarioException("No se pueden registrar mas de " + MAX_PRODUCTOS + " productos");
+        }
         if (buscarPorCodigo(producto.getCodigo()) != null) {
             throw new ProductoDuplicadoException(producto.getCodigo());
         }
@@ -63,6 +68,9 @@ public class GestorInventario {
     public void registrarMovimiento(MovimientoInventario movimiento) throws ErrorEscrituraException {
         if (movimiento == null) {
             throw new DatosInvalidosInventarioException("El movimiento no puede ser nulo");
+        }
+        if (movimientos.size() >= MAX_MOVIMIENTOS) {
+            throw new DatosInvalidosInventarioException("No se pueden registrar mas de " + MAX_MOVIMIENTOS + " movimientos en memoria");
         }
 
         String tipo = normalizarTipoMovimiento(movimiento.getTipo());
@@ -88,6 +96,7 @@ public class GestorInventario {
         movimientos.add(movimiento);
         if (persistencia != null) {
             persistencia.registrarMovimiento(movimiento);
+            registrarAlertaStockCritico(producto);
             persistencia.guardarInventarioCompleto(productos);
         }
     }
@@ -195,6 +204,39 @@ public class GestorInventario {
         return true;
     }
 
+    public boolean exportarInventarioCSV() throws ErrorEscrituraException {
+        if (persistencia == null) {
+            return false;
+        }
+        persistencia.exportarInventarioCSV(productos);
+        return true;
+    }
+
+    public boolean guardarEstadisticasBinario() throws ErrorEscrituraException {
+        return guardarInventarioCompleto();
+    }
+
+    public EstadisticasAlmacen cargarEstadisticasBinario()
+            throws excepciones.ArchivoNoEncontradoException, ErrorEscrituraException {
+        if (persistencia == null) {
+            throw new excepciones.ArchivoNoEncontradoException("estadisticas_almacen.bin");
+        }
+        return persistencia.cargarEstadisticas();
+    }
+
+    public boolean restaurarInventario()
+            throws excepciones.ArchivoNoEncontradoException, ErrorEscrituraException {
+        if (persistencia == null) {
+            return false;
+        }
+        List<Producto> restaurados = persistencia.restaurarDesdeBackup();
+        productos.clear();
+        for (Producto producto : restaurados) {
+            registrarProducto(producto);
+        }
+        return true;
+    }
+
     private void validarProducto(Producto producto) {
         if (producto == null) {
             throw new DatosInvalidosInventarioException("El producto no puede ser nulo");
@@ -222,5 +264,15 @@ public class GestorInventario {
             return "";
         }
         return tipo.trim().toUpperCase();
+    }
+
+    private void registrarAlertaStockCritico(Producto producto) throws ErrorEscrituraException {
+        if (!producto.tieneStockCritico()) {
+            return;
+        }
+        String alerta = producto.generarAlerta();
+        if (alerta != null && !alerta.isBlank()) {
+            persistencia.registrarAlerta(alerta);
+        }
     }
 }

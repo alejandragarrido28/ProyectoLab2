@@ -1,0 +1,3 @@
+codigo,nombre,proveedor,categoria,precioUnitario,stockActual,stockMinimo,valorStock,alerta,atributosExtra
+1234,metal,Metalero,MATERIA_PRIMA,53.00,277,40,14681.00,,unidad=54; concentracion=66.00
+7,Lort,Omega,ELECTRONICO,77.00,100,10,8624.00,,serie=56456; garantia=12; voltaje=120

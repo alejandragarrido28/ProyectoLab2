@@ -16,15 +16,22 @@ public class EstadisticasAlmacen implements Serializable {
     private final LocalDateTime fechaGeneracion;
     private final int totalProductos;
     private final int stockTotal;
+    private final int movimientosDia;
     private final double valorTotalInventario;
     private final int productosConAlerta;
     private final List<String> alertas;
 
     public EstadisticasAlmacen(int totalProductos, int stockTotal, double valorTotalInventario,
             int productosConAlerta, List<String> alertas) {
+        this(totalProductos, stockTotal, 0, valorTotalInventario, productosConAlerta, alertas);
+    }
+
+    public EstadisticasAlmacen(int totalProductos, int stockTotal, int movimientosDia, double valorTotalInventario,
+            int productosConAlerta, List<String> alertas) {
         this.fechaGeneracion = LocalDateTime.now();
         this.totalProductos = totalProductos;
         this.stockTotal = stockTotal;
+        this.movimientosDia = movimientosDia;
         this.valorTotalInventario = valorTotalInventario;
         this.productosConAlerta = productosConAlerta;
         this.alertas = new ArrayList<>(alertas);
@@ -40,6 +47,10 @@ public class EstadisticasAlmacen implements Serializable {
 
     public int getStockTotal() {
         return stockTotal;
+    }
+
+    public int getMovimientosDia() {
+        return movimientosDia;
     }
 
     public double getValorTotalInventario() {

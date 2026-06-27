@@ -19,7 +19,8 @@ import java.util.List;
  */
 public class BackupIO {
 
-    public static final String ARCHIVO = "backup.bin";
+    public static final String ARCHIVO = "inventario_backup.bin";
+    private static final String ARCHIVO_ANTERIOR = "backup.bin";
 
     public void guardar(List<Producto> productos) throws ErrorEscrituraException {
         try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(ARCHIVO))) {
@@ -31,7 +32,7 @@ public class BackupIO {
 
     @SuppressWarnings("unchecked")
     public List<Producto> cargar() throws ArchivoNoEncontradoException, ErrorEscrituraException {
-        File archivo = new File(ARCHIVO);
+        File archivo = obtenerArchivoLectura();
         if (!archivo.exists()) {
             throw new ArchivoNoEncontradoException(ARCHIVO);
         }
@@ -43,5 +44,13 @@ public class BackupIO {
         } catch (IOException | ClassNotFoundException e) {
             throw new ErrorEscrituraException(ARCHIVO, e);
         }
+    }
+
+    private File obtenerArchivoLectura() {
+        File archivo = new File(ARCHIVO);
+        if (archivo.exists()) {
+            return archivo;
+        }
+        return new File(ARCHIVO_ANTERIOR);
     }
 }

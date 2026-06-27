@@ -70,7 +70,7 @@ public class ExportarInventario extends javax.swing.JFrame {
         txtStockAntes.setBackground(new java.awt.Color(237, 237, 255));
         txtStockAntes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtStockAntes.setForeground(new java.awt.Color(0, 0, 51));
-        txtStockAntes.setText("inventario_completo.csv");
+        txtStockAntes.setText(ExportadorCSV.ARCHIVO);
         txtStockAntes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtStockAntesActionPerformed(evt);
@@ -144,6 +144,11 @@ public class ExportarInventario extends javax.swing.JFrame {
         if(carpetaSeleccionada==null)
         {
             JOptionPane.showMessageDialog(this, "Primero selecciona una carpeta.");
+            return;
+        }
+        if(AppContext.getGestorInventario().obtenerProductos().isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "No hay productos registrados para exportar.", "Inventario vacío", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         try

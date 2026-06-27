@@ -6,11 +6,14 @@ package Menus;
 
 import java.awt.Color;
 import clases.Producto;
+import java.awt.Component;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 /**
  *
  * @author valer
@@ -34,22 +37,52 @@ public class ReportesAlertas extends javax.swing.JFrame {
         String fechaActual = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         int totalAlertas = 0;
-        for (Producto producto : productos) 
+        String[] grupos = {"CRÍTICO", "BAJO", "PRÓXIMO A VENCER", "OTROS"};
+        for (String grupo : grupos)
         {
-            String alerta = producto.generarAlerta();
-            if (alerta != null && !alerta.isBlank()) 
+            for (Producto producto : productos) 
             {
-                // Determinar el nivel según el prefijo de la alerta
-                String tipo = "ALERTA";
-                if (alerta.startsWith("CRITICO")) tipo = "CRÍTICO";
-                else if (alerta.startsWith("URGENTE")) tipo = "URGENTE";
-                else if (alerta.startsWith("AVISO")) tipo = "AVISO";
+                String alerta = producto.generarAlerta();
+                if (alerta == null || alerta.isBlank()) 
+                {
+                    continue;
+                }
+                String tipo = clasificarAlerta(producto, alerta);
+                if(!tipo.equals(grupo))
+                {
+                    continue;
+                }
 
-                modelo.addRow(new Object[]{fechaActual,tipo,producto.getCodigo(),producto.getNombre(), producto.tieneStockCritico() ? "Stock Crítico" : "Activo",alerta});
+                modelo.addRow(new Object[]{
+                    producto.getCodigo(),
+                    producto.getNombre(),
+                    producto.tieneStockCritico() ? "Stock Crítico" : "Activo",
+                    alerta,
+                    tipo,
+                    fechaActual
+                });
                 totalAlertas++;
             }
         }
         txtTotalAlertasActivas.setText(String.valueOf(totalAlertas));
+        UiUtils.ajustarAnchoColumnas(jTable1, jScrollPane1, new int[]{80, 140, 120, 280, 120, 150}, 830);
+    }
+
+    private String clasificarAlerta(Producto producto, String alerta)
+    {
+        if(producto.getStockActual() == 0 || alerta.startsWith("CRITICO"))
+        {
+            return "CRÍTICO";
+        }
+        if(producto.tieneStockCritico())
+        {
+            return "BAJO";
+        }
+        if(alerta.contains("Vence"))
+        {
+            return "PRÓXIMO A VENCER";
+        }
+        return "OTROS";
     }
     /*
     preguntar si aqui ocupan exportar alertas tipo como archivo
@@ -108,7 +141,7 @@ public class ReportesAlertas extends javax.swing.JFrame {
         btnActualizar.setBackground(new java.awt.Color(237, 237, 255));
         btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnActualizar.setForeground(new java.awt.Color(0, 0, 51));
-        btnActualizar.setText("Refresh");
+        btnActualizar.setText("Refrescar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
@@ -127,7 +160,7 @@ public class ReportesAlertas extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Fecha", "Tipo", "Codigo", "Producto", "Estado", "Motivo/Detalle"
+                "Código", "Producto", "Estado", "Motivo/Detalle", "Tipo", "Fecha"
             }
         ));
         jTable1.setFillsViewportHeight(true);
@@ -135,6 +168,35 @@ public class ReportesAlertas extends javax.swing.JFrame {
         jTable1.setSelectionBackground(new java.awt.Color(237, 237, 255));
         jTable1.setSelectionForeground(new java.awt.Color(0, 0, 0));
         jTable1.setShowGrid(false);
+        jTable1.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                    boolean hasFocus, int row, int column) {
+                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if(!isSelected)
+                {
+                    String tipo = String.valueOf(table.getValueAt(row, 4));
+                    if("CRÍTICO".equals(tipo))
+                    {
+                        component.setBackground(new Color(255, 224, 224));
+                    }
+                    else if("BAJO".equals(tipo))
+                    {
+                        component.setBackground(new Color(255, 244, 204));
+                    }
+                    else if("PRÓXIMO A VENCER".equals(tipo))
+                    {
+                        component.setBackground(new Color(229, 242, 255));
+                    }
+                    else
+                    {
+                        component.setBackground(new Color(255, 255, 234));
+                    }
+                    component.setForeground(new Color(0, 0, 0));
+                }
+                return component;
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, 830, 240));

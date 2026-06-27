@@ -29,6 +29,7 @@ public class SalidaMercancia extends javax.swing.JFrame {
                 actualizarStockEstimadoSalida();
             }
         });
+        UiUtils.instalarSoloEnteros(txtCant);
     }
 
     public void actualizarStockEstimadoSalida()
@@ -234,7 +235,7 @@ public class SalidaMercancia extends javax.swing.JFrame {
         jComboBox1.setBackground(new java.awt.Color(237, 237, 255));
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jComboBox1.setForeground(new java.awt.Color(0, 0, 51));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Devolución", "Traslado Sucursal", "Producto Nuevo", "Otros" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Venta", "Traslado Sucursal", "Expirado", "Otros" }));
         jComboBox1.setOpaque(true);
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -300,6 +301,7 @@ public class SalidaMercancia extends javax.swing.JFrame {
 
     private void txtCodigoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoProductoActionPerformed
         // TODO add your handling code here:
+        btnBuscar.doClick();
     }//GEN-LAST:event_txtCodigoProductoActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -361,11 +363,7 @@ public class SalidaMercancia extends javax.swing.JFrame {
             return;
         }
         
-        String detalle= txtMotivo.getText().trim();
-        if(detalle.isEmpty())
-        {
-            detalle= "Entrada de mercancía";
-        }    
+        String detalle= UiUtils.obtenerDetalleMovimiento(jComboBox1, txtMotivo, "Salida de mercancía");
         try
         {
             GestorInventario gestor = AppContext.getGestorInventario();
@@ -373,7 +371,7 @@ public class SalidaMercancia extends javax.swing.JFrame {
             txtStockActual.setText(String.valueOf(productoEncontrado.getStockActual()));
             txtStockEstimado.setText("");
             txtStockEstimado.setBackground(new Color(237,237,255));
-            JOptionPane.showMessageDialog(this, "Entrada registrada correctamente. \nNuevo Stock: "+productoEncontrado.getStockActual(), "Éxito Entrada Mercancía", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Salida registrada correctamente. \nNuevo Stock: "+productoEncontrado.getStockActual(), "Éxito Salida Mercancía", JOptionPane.INFORMATION_MESSAGE);
             btnLimpiar.doClick();
         }
         catch (StockInsuficienteException e)
@@ -395,10 +393,20 @@ public class SalidaMercancia extends javax.swing.JFrame {
         String codigo= txtCodigoProducto.getText().trim();
         if(codigo.isEmpty())
         {
-            JOptionPane.showMessageDialog(this, "Ingrese el código de un producto.");
-            return;
+            Producto seleccionado = UiUtils.seleccionarProducto(this);
+            if(seleccionado == null)
+            {
+                JOptionPane.showMessageDialog(this, "Ingrese o seleccione el código de un producto.");
+                return;
+            }
+            txtCodigoProducto.setText(seleccionado.getCodigo());
+            codigo = seleccionado.getCodigo();
         }
-        
+        buscarProductoPorCodigo(codigo);
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void buscarProductoPorCodigo(String codigo)
+    {
         GestorInventario gestorInventario= AppContext.getGestorInventario();
         productoEncontrado= gestorInventario.buscarPorCodigo(codigo);
         if(productoEncontrado==null)
@@ -418,7 +426,7 @@ public class SalidaMercancia extends javax.swing.JFrame {
         txtStockEstimado.setText("");
         txtStockEstimado.setForeground(new Color(0,0,51));
         btnSalida.setEnabled(true);
-    }//GEN-LAST:event_btnBuscarActionPerformed
+    }
 
     private void txtCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoriaActionPerformed
         // TODO add your handling code here:
@@ -434,17 +442,7 @@ public class SalidaMercancia extends javax.swing.JFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        String tipo= jComboBox1.getSelectedItem().toString();
-       if(tipo.equals("Otros"))
-       {
-           txtMotivo.setEditable(true);
-           txtMotivo.setBackground(new Color(255,255,255));
-       }
-       else
-       {
-            txtMotivo.setEditable(false);
-            txtMotivo.setBackground(new Color(237,237,255));
-       }
+        UiUtils.configurarCampoDetalle(jComboBox1, txtMotivo);
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void txtCantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantActionPerformed

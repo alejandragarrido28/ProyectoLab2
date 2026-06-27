@@ -20,7 +20,8 @@ import modelo.MovimientoInventario;
  */
 public class LogMovimientosIO {
 
-    public static final String ARCHIVO = "log_movimientos.txt";
+    public static final String ARCHIVO = "movimientos_almacen.txt";
+    private static final String ARCHIVO_ANTERIOR = "log_movimientos.txt";
 
     public void registrarMovimiento(MovimientoInventario movimiento) throws ErrorEscrituraException {
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(ARCHIVO, true))) {
@@ -39,12 +40,12 @@ public class LogMovimientosIO {
 
     public void registrarAlerta(String alerta) throws ErrorEscrituraException {
         MovimientoInventario alertaMovimiento = new MovimientoInventario(
-                "ALERTA", "SISTEMA", 0, alerta);
+                "ALERTA", "SISTEMA", 0, alerta, "SISTEMA");
         registrarMovimiento(alertaMovimiento);
     }
 
     public List<MovimientoInventario> leerMovimientos() throws ArchivoNoEncontradoException, ErrorEscrituraException {
-        File archivo = new File(ARCHIVO);
+        File archivo = obtenerArchivoLectura();
         if (!archivo.exists()) {
             throw new ArchivoNoEncontradoException(ARCHIVO);
         }
@@ -63,5 +64,13 @@ public class LogMovimientosIO {
             throw new ErrorEscrituraException(ARCHIVO, e);
         }
         return movimientos;
+    }
+
+    private File obtenerArchivoLectura() {
+        File archivo = new File(ARCHIVO);
+        if (archivo.exists()) {
+            return archivo;
+        }
+        return new File(ARCHIVO_ANTERIOR);
     }
 }

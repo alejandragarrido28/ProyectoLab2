@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class ExportadorCSV {
 
-    public static final String ARCHIVO = "inventario_completo.csv";
+    public static final String ARCHIVO = "inventario_reporte.csv";
 
     private static final DateTimeFormatter FORMATO_ALERTA = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 

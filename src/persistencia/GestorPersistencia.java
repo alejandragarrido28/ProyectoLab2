@@ -6,6 +6,7 @@ import excepciones.ErrorEscrituraException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import modelo.EstadisticasAlmacen;
 import modelo.MovimientoInventario;
@@ -34,18 +35,11 @@ public class GestorPersistencia {
 
     public void guardarInventarioCompleto(List<Producto> productos) throws ErrorEscrituraException {
         List<String> alertas = recolectarAlertas(productos);
-        registrarAlertasEnLog(alertas);
 
         EstadisticasAlmacen estadisticas = calcularEstadisticas(productos, alertas);
         estadisticasIO.guardar(estadisticas);
         backupIO.guardar(productos);
         exportadorCSV.exportar(productos);
-
-        MovimientoInventario registroGuardado = new MovimientoInventario(
-                "GUARDADO", "SISTEMA", productos.size(),
-                String.format("Persistencia completa: %d productos, %d alertas",
-                        productos.size(), alertas.size()));
-        logMovimientos.registrarMovimiento(registroGuardado);
     }
 
     public List<Producto> restaurarDesdeBackup() throws ArchivoNoEncontradoException, ErrorEscrituraException {
@@ -62,6 +56,10 @@ public class GestorPersistencia {
 
     public void registrarMovimiento(MovimientoInventario movimiento) throws ErrorEscrituraException {
         logMovimientos.registrarMovimiento(movimiento);
+    }
+
+    public void registrarAlerta(String alerta) throws ErrorEscrituraException {
+        logMovimientos.registrarAlerta(alerta);
     }
 
     public void exportarInventarioCSV(List<Producto> productos) throws ErrorEscrituraException {
@@ -89,15 +87,29 @@ public class GestorPersistencia {
         return new EstadisticasAlmacen(
                 productos.size(),
                 stockTotal,
+                contarMovimientosDia(),
                 valorTotal,
                 alertas.size(),
                 alertas);
     }
 
-    private void registrarAlertasEnLog(List<String> alertas) throws ErrorEscrituraException {
-        for (String alerta : alertas) {
-            logMovimientos.registrarAlerta(alerta);
+    private int contarMovimientosDia() {
+        List<MovimientoInventario> movimientos;
+        try {
+            movimientos = logMovimientos.leerMovimientos();
+        } catch (Exception e) {
+            movimientos = Collections.emptyList();
         }
+        int total = 0;
+        LocalDateTime ahora = LocalDateTime.now();
+        for (MovimientoInventario movimiento : movimientos) {
+            String tipo = movimiento.getTipo();
+            if (movimiento.getFecha().toLocalDate().equals(ahora.toLocalDate())
+                    && ("ENTRADA".equalsIgnoreCase(tipo) || "SALIDA".equalsIgnoreCase(tipo))) {
+                total++;
+            }
+        }
+        return total;
     }
 
     private String formatearAlertaConFecha(String motivo) {

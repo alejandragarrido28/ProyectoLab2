@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Menus;
+import clases.Producto;
 import excepciones.ArchivoNoEncontradoException;
 import excepciones.ErrorEscrituraException;
 import java.util.ArrayList;
@@ -31,8 +32,30 @@ public class HistorialMovimientos extends javax.swing.JFrame {
         DefaultTableModel modelo= (DefaultTableModel) jTable1.getModel();
         modelo.setRowCount(0);
         for (MovimientoInventario movimiento : movimientos) {
-            modelo.addRow(new Object[]{movimiento.getFecha().toString().replace("T", " "), movimiento.getTipo(), movimiento.getCodigoProducto(), movimiento.getCantidad()});
+            modelo.addRow(new Object[]{
+                movimiento.getCodigoProducto(),
+                obtenerNombreProducto(movimiento.getCodigoProducto()),
+                movimiento.getTipo(),
+                movimiento.getCantidad(),
+                movimiento.getDetalle(),
+                movimiento.getFecha().toString().replace("T", " ")
+            });
         }
+        UiUtils.ajustarAnchoColumnas(jTable1, jScrollPane1, new int[]{80, 140, 90, 70, 180, 150}, 880);
+    }
+
+    private String obtenerNombreProducto(String codigo)
+    {
+        if(codigo == null || codigo.equalsIgnoreCase("SISTEMA"))
+        {
+            return "";
+        }
+        Producto producto = AppContext.getGestorInventario().buscarPorCodigo(codigo);
+        if(producto == null)
+        {
+            return "No disponible";
+        }
+        return producto.getNombre();
     }
     
     private List<MovimientoInventario> leerTodosMovimientos()
@@ -65,7 +88,6 @@ public class HistorialMovimientos extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnRegistro = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
-        btnBack = new javax.swing.JToggleButton();
         btnBuscar = new javax.swing.JToggleButton();
         Refresh = new javax.swing.JToggleButton();
         lblTituloFiltro = new javax.swing.JLabel();
@@ -104,17 +126,6 @@ public class HistorialMovimientos extends javax.swing.JFrame {
         });
         jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 280, 30));
 
-        btnBack.setBackground(new java.awt.Color(237, 237, 255));
-        btnBack.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnBack.setForeground(new java.awt.Color(0, 0, 51));
-        btnBack.setText("Atrás");
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBackActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, -1, -1));
-
         btnBuscar.setBackground(new java.awt.Color(237, 237, 255));
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(0, 0, 51));
@@ -129,7 +140,7 @@ public class HistorialMovimientos extends javax.swing.JFrame {
         Refresh.setBackground(new java.awt.Color(237, 237, 255));
         Refresh.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         Refresh.setForeground(new java.awt.Color(0, 0, 51));
-        Refresh.setText("Refresh");
+        Refresh.setText("Refrescar");
         Refresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RefreshActionPerformed(evt);
@@ -164,13 +175,13 @@ public class HistorialMovimientos extends javax.swing.JFrame {
         jTable1.setForeground(new java.awt.Color(0, 0, 0));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Fecha", "Tipo", "Código", "Cantidad"
+                "Código", "Nombre", "Tipo", "Cantidad", "Motivo", "Fecha"
             }
         ));
         jTable1.setFillsViewportHeight(true);
@@ -205,12 +216,6 @@ public class HistorialMovimientos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegistroActionPerformed
 
-    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-        new MenuInicio().setVisible(true);
-    }//GEN-LAST:event_btnBackActionPerformed
-
     private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
         // TODO add your handling code here:
         /*
@@ -218,70 +223,75 @@ public class HistorialMovimientos extends javax.swing.JFrame {
         -salida registrada correctamente
         -stock insuficiente
         */
-        String filtroActual=jComboBox1.getSelectedItem().toString();
-        List<MovimientoInventario> todos= leerTodosMovimientos();
-        if(filtroActual.equals("Todos"))
-        {
-            cargarMovimientos(todos);
-        }
-        List<MovimientoInventario> filtrados= new ArrayList<>();
-        for (MovimientoInventario movimiento : todos) 
-        {
-            if(movimiento.getTipo().equalsIgnoreCase(filtroActual))
-            {
-                filtrados.add(movimiento);
-            }
-        }
-        cargarMovimientos(filtrados);
+        refrescarConFiltroActual();
     }//GEN-LAST:event_RefreshActionPerformed
 
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
         // TODO add your handling code here:
+        btnBuscar.doClick();
     }//GEN-LAST:event_txtCodigoActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        String filtro= jComboBox1.getSelectedItem().toString();
-        List<MovimientoInventario> todos= leerTodosMovimientos();
-        if(filtro.equals("Todos"))
-        {
-            cargarMovimientos(todos);
-            return;
-        }
-        List<MovimientoInventario> filtrados= new ArrayList<>();
-        for (MovimientoInventario movimiento : todos) 
-        {
-            if(movimiento.getTipo().equalsIgnoreCase(filtro))
-            {
-                filtrados.add(movimiento);
-            }
-        }
-        cargarMovimientos(filtrados);
+        refrescarConFiltroActual();
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void refrescarConFiltroActual()
+    {
+        cargarMovimientos(filtrarPorTipo(leerTodosMovimientos()));
+    }
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        String codigo= txtCodigo.getText().trim();
-        if(codigo.isEmpty())
+        String busqueda= txtCodigo.getText().trim();
+        if(busqueda.isEmpty())
         {
-            JOptionPane.showMessageDialog(this, "Ingrese un codigo", "AVISO", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ingrese un código o una fecha (yyyy-MM-dd)", "AVISO", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        List<MovimientoInventario> todos= leerTodosMovimientos();
+        List<MovimientoInventario> todos= filtrarPorTipo(leerTodosMovimientos());
         List<MovimientoInventario> resultados= new ArrayList<>();
         for (MovimientoInventario movimiento : todos) 
         {
-            if(movimiento.getCodigoProducto().equalsIgnoreCase(codigo))
+            String fecha = movimiento.getFecha().toLocalDate().toString();
+            if(movimiento.getCodigoProducto().equalsIgnoreCase(busqueda) || fecha.equals(busqueda))
             {
                 resultados.add(movimiento);
             }
         }
         if(resultados.isEmpty())
         {
-            JOptionPane.showMessageDialog(this, "No se encontraron movimientos para código: "+codigo, "SIN RESULTADOS", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se encontraron movimientos para: "+busqueda, "SIN RESULTADOS", JOptionPane.INFORMATION_MESSAGE);
         }
         cargarMovimientos(resultados);
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private List<MovimientoInventario> filtrarPorTipo(List<MovimientoInventario> movimientos)
+    {
+        String filtro = jComboBox1.getSelectedItem().toString();
+        if(filtro.equals("Todos"))
+        {
+            return movimientos;
+        }
+        List<MovimientoInventario> filtrados = new ArrayList<>();
+        for (MovimientoInventario movimiento : movimientos)
+        {
+            if(movimiento.getTipo().equalsIgnoreCase(normalizarFiltro(filtro)))
+            {
+                filtrados.add(movimiento);
+            }
+        }
+        return filtrados;
+    }
+
+    private String normalizarFiltro(String filtro)
+    {
+        if(filtro.equalsIgnoreCase("Alertas"))
+        {
+            return "ALERTA";
+        }
+        return filtro;
+    }
 
     private void btnBack1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack1ActionPerformed
         // TODO add your handling code here:
@@ -341,7 +351,6 @@ public class HistorialMovimientos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton Refresh;
-    private javax.swing.JToggleButton btnBack;
     private javax.swing.JToggleButton btnBack1;
     private javax.swing.JToggleButton btnBuscar;
     private javax.swing.JButton btnRegistro;

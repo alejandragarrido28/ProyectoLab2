@@ -4,14 +4,17 @@
  */
 package Menus;
 
+import java.awt.KeyboardFocusManager;
+import java.awt.Window;
 import java.util.Date;
 import clases.*;
 import Enums.CategoriaProducto;
 import excepciones.*;
 import modelo.GestorInventario;
 import javax.swing.JOptionPane;
+import javax.swing.JWindow;
+import javax.swing.SwingUtilities;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 /**
  *
  * @author valer
@@ -586,7 +589,9 @@ public class RegistrarProducto extends javax.swing.JFrame {
                     Date fechaDate = jDateChooser.getDate();
                     if (fechaDate == null) 
                     {
+                        cerrarPopupCalendario();
                         JOptionPane.showMessageDialog(this, "Seleccione la fecha de vencimiento.", "AVISO", JOptionPane.WARNING_MESSAGE);
+                        jDateChooser.getDateEditor().getUiComponent().requestFocusInWindow();
                         return;
                     }
                     String fechaVencimiento= new SimpleDateFormat("yyyy-MM-dd").format(fechaDate);
@@ -622,7 +627,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "Garantía y Voltaje deben ser mayor o igual a 0.", "Datos Inválidos", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    nuevoProducto = new ProductoElectrionico(serie, garantia, voltaje,codigo, nombre, proveedor,CategoriaProducto.ELECTRONICO, precio, stockInicial, stockMinimo);
+                    nuevoProducto = new ProductoElectronico(serie, garantia, voltaje,codigo, nombre, proveedor,CategoriaProducto.ELECTRONICO, precio, stockInicial, stockMinimo);
                     break;
                 case "Materia Prima":
                     String unidad= txtUnidadMedida.getText().trim();
@@ -655,8 +660,19 @@ public class RegistrarProducto extends javax.swing.JFrame {
             GestorInventario gestor = AppContext.getGestorInventario();
             gestor.registrarProducto(nuevoProducto);
             gestor.guardarInventarioCompleto();
-            JOptionPane.showMessageDialog(this,"Producto registrado correctamente:\n" + nombre + " [" + codigo + "]", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            int respuesta = JOptionPane.showConfirmDialog(this,
+                    "Producto registrado correctamente:\n" + nombre + " [" + codigo + "]\n\n¿Desea registrar otro producto de tipo " + tipoSeleccionado + "?",
+                    "Éxito", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
             btnLimpiar.doClick();//para que se limpie de un solo
+            if(respuesta != JOptionPane.YES_OPTION)
+            {
+                this.dispose();
+                new MenuInicio().setVisible(true);
+            }
+            else
+            {
+                txtCodigoProducto.requestFocus();
+            }
         } 
         catch (ProductoDuplicadoException e) 
         {
@@ -671,6 +687,19 @@ public class RegistrarProducto extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "El producto se agregó, pero no se pudo guardar en disco: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void cerrarPopupCalendario()
+    {
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
+        for(Window ventana : Window.getWindows())
+        {
+            if(ventana instanceof JWindow && ventana.isShowing())
+            {
+                ventana.setVisible(false);
+            }
+        }
+        SwingUtilities.invokeLater(() -> btnRegistrar.requestFocusInWindow());
+    }
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
