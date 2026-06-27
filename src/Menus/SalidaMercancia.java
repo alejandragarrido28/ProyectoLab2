@@ -363,6 +363,11 @@ public class SalidaMercancia extends javax.swing.JFrame {
             return;
         }
         
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro que desea registrar la salida de " + cant + " unidad(es) del producto \"" + productoEncontrado.getNombre() + "\"?","Confirmar Salida",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE );
+        if(confirmacion != JOptionPane.YES_OPTION)
+        {
+            return;
+        }
         String detalle= UiUtils.obtenerDetalleMovimiento(jComboBox1, txtMotivo, "Salida de mercancía");
         try
         {

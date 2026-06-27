@@ -382,6 +382,13 @@ public class EntradaMercancia extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "La cantidad debe ser un número entero positivo.", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
+        int confirmacion = JOptionPane.showConfirmDialog( this, "¿Está seguro que desea registrar la entrada de " + cant + " unidad(es) del producto \"" + productoEncontrado.getNombre() + "\"?","Confirmar Entrada",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if(confirmacion != JOptionPane.YES_OPTION)
+        {
+            return;
+        }
+
         String detalle= UiUtils.obtenerDetalleMovimiento(jComboBox1, txtMotivo, "Entrada de mercancía");
         try
         {

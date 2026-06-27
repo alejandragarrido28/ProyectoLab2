@@ -655,6 +655,12 @@ public class RegistrarProducto extends javax.swing.JFrame {
             return;
         }
 
+        int confirmacion = JOptionPane.showConfirmDialog( this, "¿Está seguro que desea registrar el producto \"" + nombre + "\" [" + codigo + "] de tipo " + tipoSeleccionado + "?","Confirmar Registro",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE );
+        if(confirmacion != JOptionPane.YES_OPTION)
+        {
+            return;
+        }
+        
         try 
         {
             GestorInventario gestor = AppContext.getGestorInventario();
